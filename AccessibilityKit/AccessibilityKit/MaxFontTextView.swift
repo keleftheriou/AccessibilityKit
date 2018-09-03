@@ -63,7 +63,7 @@ public class MaxFontTextView: UIView {
   private var lastAttributedText: NSAttributedString!
   
   // TODO: use NSTextStorage, and NSLayoutManager for blinking cursor?
-  var attributedText = NSAttributedString() {
+  public var attributedText = NSAttributedString() {
     didSet { setNeedsDisplay() }
   }
   
