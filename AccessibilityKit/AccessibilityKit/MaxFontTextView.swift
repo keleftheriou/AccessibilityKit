@@ -70,15 +70,14 @@ public class MaxFontTextView: UIView {
   override public init(frame: CGRect) {
     super.init(frame: frame)
     contentMode = .redraw
+    isOpaque = false
   }
   
   override public func draw(_ rect: CGRect) {
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
     //assert(rect == bounds)
-    (backgroundColor ?? .black).setFill()
-    UIRectFill(rect)
-
+    
     // Ensure we never break a word into multiple lines.
     // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
     // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very

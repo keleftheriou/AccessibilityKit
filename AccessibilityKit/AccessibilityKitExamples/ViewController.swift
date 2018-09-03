@@ -16,7 +16,6 @@ class MaxFontTextViewCell: UITableViewCell {
   
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    maxFontTextView.backgroundColor = .clear
     contentView.addSubview(maxFontTextView)
     contentView.layer.insertSublayer(gradient, at: 0)
   }
