@@ -34,22 +34,22 @@ class ViewController: UITableViewController {
   
   var dataSource: [String] = [
     "Test 😎",
-    "Donec id",
-    "Non mi porta! 💪",
+    "Another one",
+    "It works 💪",
     "Testing",
-    "Gravida at eget metus.",
-    "Integer posuere.\nTesting...",
+    "This is interesting",
+    "Line one...\nLine two!",
     ":)",
-    "Cum sociis natoque penatibus et magnis dis.",
-    "Duis mollis, est non commodo luctus",
+    "More text",
+    "CAPITAL LETTERS",
     "❤️",
-    "Eget lacinia odio sem nec elit.",
+    "Some text goes here",
     "🙉🐶",
-    "Vestibulum id ligula porta felis euismod semper.",
-    "Maecenas faucibus mollis interdum.",
-    "Donec ullamcorper nulla non metus auctor fringilla.",
-    "Aenean lacinia bibendum nulla sed consectetur.",
-    "Cum sociis natoque penatibus et magnis dis parturient montes.",
+    "What happens if the text is longer?",
+    "COOL",
+    "Let's try this.\nNew line...\nAnother one.",
+    "The quick brown fox jumped over the lazy dog.",
+    "Accessible text",
     ]
   
   private let cellIdentifier = "MaxFontViewCellIdentifier"
@@ -59,6 +59,8 @@ class ViewController: UITableViewController {
     // Do any additional setup after loading the view, typically from a nib.
     tableView.register(MaxFontTextViewCell.self, forCellReuseIdentifier: cellIdentifier)
     tableView.separatorStyle = .none
+    tableView.alwaysBounceVertical = true
+    tableView.backgroundColor = .black
   }
   
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -79,10 +81,12 @@ extension ViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let bgColors = [UIColor.gray, UIColor.brown, UIColor.orange, UIColor.red, UIColor.magenta, UIColor.blue, UIColor.green, UIColor.cyan]
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MaxFontTextViewCell
-    cell.maxFontTextView.attributedText = .init(string: "\(dataSource[indexPath.row])")
-    let colors = [UIColor.lightGray, UIColor.magenta, UIColor.cyan, UIColor.orange, UIColor.red, UIColor.green]
-    cell.gradient.colors = [colors[indexPath.row % colors.count].cgColor, UIColor.white.cgColor]
+    cell.maxFontTextView.attributedText = .init(string: "\(dataSource[indexPath.row])", attributes: [.foregroundColor: UIColor.white.withAlphaComponent(1.0)])
+    cell.gradient.colors = [bgColors[indexPath.row % bgColors.count].cgColor, UIColor.black.cgColor]
+    cell.gradient.startPoint = .init(x: -0.4, y: -0.4) // default is (0.5, 0.0)
+    cell.gradient.endPoint   = .init(x:  1.4, y:  1.4) // default is (0.5, 1.0)
     return cell
   }
   
