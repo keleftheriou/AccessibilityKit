@@ -64,8 +64,11 @@ public enum TextVerticalAlignment {
 
 public class MaxFontTextView: UIView {
   
-  let maxFontSize: CGFloat = 500
-  let minFontSize: CGFloat = 12
+  private let maxFontSize: CGFloat = 500
+  private let minFontSize: CGFloat = 1
+  
+  // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
+  private let fontSizeAccuracyThreshold: CGFloat = 2
   
   private var lastBoundsUsed: CGRect!
   private var lastFontSizeUsed: CGFloat!
@@ -86,6 +89,17 @@ public class MaxFontTextView: UIView {
     isOpaque = false
   }
   
+  private func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, boundingSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
+    if maxFontSize - minFontSize < fontSizeAccuracyThreshold { return minFontSize }
+    let avgSize = (minFontSize + maxFontSize) / 2
+    let result = string.withFontSize(avgSize).boundingRect(with: boundingSize, options: options, context: nil)
+    if bounds.size.contains(result.size) {
+      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, boundingSize:boundingSize, options: options)
+    } else {
+      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, boundingSize:boundingSize, options: options)
+    }
+  }
+  
   override public func draw(_ rect: CGRect) {
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
@@ -104,28 +118,14 @@ public class MaxFontTextView: UIView {
     let longestWord = NSMutableAttributedString(attributedString: _longestWord)
     longestWord.append(NSAttributedString(string: " "))
     
-    var fontSize: CGFloat = maxFontSize
+    // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
+    let initFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, boundingSize: .greatestFiniteSize, options: [])
     
-    // Optimization: start the "search" from the previously known used value, if the string is the same (eg the cursor color changed)
-    if lastAttributedText != nil && attributedText.string == lastAttributedText.string && bounds == lastBoundsUsed {
-      fontSize = lastFontSizeUsed
-    }
+    // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
+    let fontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: initFontSize, boundingSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin])
     
-    // First, fit the largest word inside our bounds.
-    repeat {
-      // Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-      let result = longestWord.withFontSize(fontSize).boundingRect(with: .greatestFiniteSize, options: [], context: nil)
-      if rect.size.contains(result.size) { break }
-      fontSize -= 2
-    } while fontSize > minFontSize
-    
-    // Now continue searching using the entire text, and restrict to the actual width while checking for height overflow.
-    var result: CGRect
-    repeat {
-      result = attributedText.withFontSize(fontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], context: nil)
-      if rect.size.contains(result.size) { break }
-      fontSize -= 2
-    } while fontSize > minFontSize
+    // Re-run to get the final boundingRect. TODO: we should keep the resulting rectangle from the last search call, or see if we can get it using a `NSStringDrawingContext` and its `totalBounds`
+    let result = attributedText.withFontSize(fontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], context: nil)
     
     let vShift: CGFloat = {
       switch verticalAlignment {
