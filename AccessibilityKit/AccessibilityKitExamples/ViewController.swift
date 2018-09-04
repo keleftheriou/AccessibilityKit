@@ -83,11 +83,14 @@ extension ViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MaxFontTextViewCell
     
-    // Pretty background colors
-    let bgColors = [UIColor.gray, UIColor.brown, UIColor.orange, UIColor.red, UIColor.magenta, UIColor.blue, UIColor.green, UIColor.cyan]
-    cell.gradient.colors = [bgColors[indexPath.row % bgColors.count].cgColor, UIColor.black.cgColor]
-    cell.gradient.startPoint = .init(x: -0.4, y: -0.4) // default is (0.5, 0.0)
-    cell.gradient.endPoint   = .init(x:  1.4, y:  1.4) // default is (0.5, 1.0)
+    // Pretty colors
+    let bgTopColors    = [UIColor.gray,  UIColor.white]
+    let bgBottomColors = [UIColor.black, UIColor.gray ]
+    let textColors     = [UIColor.white, UIColor.black]
+    
+    cell.gradient.colors = [bgTopColors[indexPath.row % bgTopColors.count].cgColor, bgBottomColors[indexPath.row % bgBottomColors.count].cgColor]
+    cell.gradient.startPoint = .init(x: 0, y: 0) // default is (0.5, 0.0)
+    cell.gradient.endPoint   = .init(x: 1, y: 1) // default is (0.5, 1.0)
     
     // This paragraph style is the default - putting it here so it's easier to experiment with.
     let paragraphStyle = NSMutableParagraphStyle()
@@ -98,7 +101,7 @@ extension ViewController {
     cell.maxFontTextView.verticalAlignment = .center
     
     // Set the attributed string that will fit the entire bounds of this cell
-    cell.maxFontTextView.attributedText = .init(string: "\(dataSource[indexPath.row % dataSource.count])", attributes: [.foregroundColor: UIColor.white, .paragraphStyle: paragraphStyle])
+    cell.maxFontTextView.attributedText = .init(string: "\(dataSource[indexPath.row % dataSource.count])", attributes: [.foregroundColor: textColors[indexPath.row % textColors.count], .paragraphStyle: paragraphStyle])
     return cell
   }
   
