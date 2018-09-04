@@ -53,6 +53,12 @@ fileprivate extension NSAttributedString {
     }
 }
 
+public enum TextVerticalAlignment {
+  case top
+  case center
+  case bottom
+}
+
 public class MaxFontTextView: UIView {
   
   let maxFontSize: CGFloat = 500
@@ -62,6 +68,10 @@ public class MaxFontTextView: UIView {
   private var lastFontSizeUsed: CGFloat!
   private var lastAttributedText: NSAttributedString!
   
+  public var verticalAlignment = TextVerticalAlignment.center {
+    didSet { setNeedsDisplay() }
+  }
+
   // TODO: use NSTextStorage, and NSLayoutManager for blinking cursor?
   public var attributedText = NSAttributedString() {
     didSet { setNeedsDisplay() }
@@ -112,7 +122,16 @@ public class MaxFontTextView: UIView {
       fontSize -= 2
     } while fontSize > minFontSize
 
-    attributedText.withFontSize(fontSize).draw(with: CGRect(center: rect.center, size: result.size), options: [.usesLineFragmentOrigin], context: nil)
+    let vShift: CGFloat = {
+      switch verticalAlignment {
+      case .top: return 0
+      case .center: return (rect.height - result.height)/2
+      case .bottom: return rect.height - result.height
+      }
+    }()
+
+    let box = CGRect(center: CGPoint(x: rect.center.x, y: result.center.y + vShift), size: CGSize(width: rect.width, height: result.height))
+    attributedText.withFontSize(fontSize).draw(with: box, options: [.usesLineFragmentOrigin], context: nil)
     
     lastAttributedText = attributedText
     lastFontSizeUsed = fontSize
