@@ -111,7 +111,7 @@ public class MaxFontTextView: UIView {
     // First, fit the largest word inside our bounds.
     repeat {
       // Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-      let result = longestWord.withFontSize(fontSize).boundingRect(with: CGSize(width: .greatestFiniteMagnitude, height: rect.height), options: [], context: nil)
+      let result = longestWord.withFontSize(fontSize).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [], context: nil)
       if rect.size.contains(result.size) { break }
       fontSize -= 2
     } while fontSize > minFontSize
