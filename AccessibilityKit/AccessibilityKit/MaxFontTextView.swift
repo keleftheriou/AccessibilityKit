@@ -1,6 +1,9 @@
 import UIKit
 
 fileprivate extension CGSize {
+  
+    static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+  
     func contains(_ size: CGSize) -> Bool {
         return width >= size.width && height >= size.height
     }
@@ -92,7 +95,7 @@ public class MaxFontTextView: UIView {
     // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
     // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
     // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
-    let relativeWordWidths = attributedText.components.map { ($0, $0.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), context: nil).width) }
+    let relativeWordWidths = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, context: nil).width) }
     let (_longestWord, longestWordWidth) = relativeWordWidths.max { $0.1 < $1.1 }!
     guard longestWordWidth > 0 else { return } // whitespace was "longest"
     
@@ -111,7 +114,7 @@ public class MaxFontTextView: UIView {
     // First, fit the largest word inside our bounds.
     repeat {
       // Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-      let result = longestWord.withFontSize(fontSize).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [], context: nil)
+      let result = longestWord.withFontSize(fontSize).boundingRect(with: .greatestFiniteSize, options: [], context: nil)
       if rect.size.contains(result.size) { break }
       fontSize -= 2
     } while fontSize > minFontSize
