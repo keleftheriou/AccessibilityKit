@@ -77,7 +77,7 @@ extension ViewController {
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dataSource.count
+    return 10000
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,7 +98,7 @@ extension ViewController {
     cell.maxFontTextView.verticalAlignment = .center
     
     // Set the attributed string that will fit the entire bounds of this cell
-    cell.maxFontTextView.attributedText = .init(string: dataSource[indexPath.row], attributes: [.foregroundColor: UIColor.white, .paragraphStyle: paragraphStyle])
+    cell.maxFontTextView.attributedText = .init(string: "\(dataSource[indexPath.row % dataSource.count])", attributes: [.foregroundColor: UIColor.white, .paragraphStyle: paragraphStyle])
     return cell
   }
   
