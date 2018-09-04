@@ -70,10 +70,6 @@ public class MaxFontTextView: UIView {
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
   private let fontSizeAccuracyThreshold: CGFloat = 2
   
-  private var lastBoundsUsed: CGRect!
-  private var lastFontSizeUsed: CGFloat!
-  private var lastAttributedText: NSAttributedString!
-  
   public var verticalAlignment = TextVerticalAlignment.center {
     didSet { setNeedsDisplay() }
   }
@@ -137,10 +133,6 @@ public class MaxFontTextView: UIView {
     
     let box = CGRect(center: CGPoint(x: rect.center.x, y: result.center.y + vShift), size: CGSize(width: rect.width, height: result.height))
     attributedText.withFontSize(fontSize).draw(with: box, options: [.usesLineFragmentOrigin], context: nil)
-    
-    lastAttributedText = attributedText
-    lastFontSizeUsed = fontSize
-    lastBoundsUsed = bounds
   }
   
   required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
