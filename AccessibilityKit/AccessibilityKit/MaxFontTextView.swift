@@ -2,58 +2,58 @@ import UIKit
 
 fileprivate extension CGSize {
   
-    static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+  static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
   
-    func contains(_ size: CGSize) -> Bool {
-        return width >= size.width && height >= size.height
-    }
+  func contains(_ size: CGSize) -> Bool {
+    return width >= size.width && height >= size.height
+  }
 }
 
 fileprivate extension CGRect {
-    
-    init(center: CGPoint, size: CGSize) {
-        let origin = CGPoint(x:center.x - 0.5 * size.width, y:center.y - 0.5 * size.height)
-        self.init(origin: origin, size: size)
-    }
-    
-    var center: CGPoint {
-        return CGPoint(x: origin.x + 0.5 * size.width, y: origin.y + 0.5 * size.height)
-    }
+  
+  init(center: CGPoint, size: CGSize) {
+    let origin = CGPoint(x:center.x - 0.5 * size.width, y:center.y - 0.5 * size.height)
+    self.init(origin: origin, size: size)
+  }
+  
+  var center: CGPoint {
+    return CGPoint(x: origin.x + 0.5 * size.width, y: origin.y + 0.5 * size.height)
+  }
 }
 
 fileprivate extension String {
-    func rangesOfCharacters(from characterSet: CharacterSet) -> [NSRange] {
-        var ranges = [Range<String.Index>]()
-        var position = startIndex
-        while let range = rangeOfCharacter(from: characterSet, range: position..<endIndex) {
-            ranges += [range]
-            guard let newPosition = index(range.upperBound, offsetBy: 1, limitedBy: endIndex) else { break }
-            position = newPosition
-        }
-        return ranges.map { NSRange($0, in: self) }
+  func rangesOfCharacters(from characterSet: CharacterSet) -> [NSRange] {
+    var ranges = [Range<String.Index>]()
+    var position = startIndex
+    while let range = rangeOfCharacter(from: characterSet, range: position..<endIndex) {
+      ranges += [range]
+      guard let newPosition = index(range.upperBound, offsetBy: 1, limitedBy: endIndex) else { break }
+      position = newPosition
     }
+    return ranges.map { NSRange($0, in: self) }
+  }
 }
 
 fileprivate extension NSAttributedString {
-    
-    var components: [NSAttributedString] {
-        var result = [NSAttributedString]()
-        var lastPosition = 0
-        string.rangesOfCharacters(from: .whitespacesAndNewlines).forEach { skipRange in
-            let range = NSRange(location: lastPosition, length: skipRange.location - lastPosition)
-            result += [attributedSubstring(from: range)]
-            lastPosition = skipRange.upperBound
-        }
-        result += [attributedSubstring(from: NSRange(location: lastPosition, length: length - lastPosition))]
-        return result
+  
+  var components: [NSAttributedString] {
+    var result = [NSAttributedString]()
+    var lastPosition = 0
+    string.rangesOfCharacters(from: .whitespacesAndNewlines).forEach { skipRange in
+      let range = NSRange(location: lastPosition, length: skipRange.location - lastPosition)
+      result += [attributedSubstring(from: range)]
+      lastPosition = skipRange.upperBound
     }
-    
-    func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
-        let result = NSMutableAttributedString(attributedString: self)
-        let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
-        result.addAttribute(.font, value: font, range: NSRange(location: 0, length: length))
-        return result
-    }
+    result += [attributedSubstring(from: NSRange(location: lastPosition, length: length - lastPosition))]
+    return result
+  }
+  
+  func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
+    let result = NSMutableAttributedString(attributedString: self)
+    let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+    result.addAttribute(.font, value: font, range: NSRange(location: 0, length: length))
+    return result
+  }
 }
 
 public enum TextVerticalAlignment {
@@ -74,7 +74,7 @@ public class MaxFontTextView: UIView {
   public var verticalAlignment = TextVerticalAlignment.center {
     didSet { setNeedsDisplay() }
   }
-
+  
   // TODO: use NSTextStorage, and NSLayoutManager for blinking cursor?
   public var attributedText = NSAttributedString() {
     didSet { setNeedsDisplay() }
@@ -103,7 +103,7 @@ public class MaxFontTextView: UIView {
     // TODO: only if italics?
     let longestWord = NSMutableAttributedString(attributedString: _longestWord)
     longestWord.append(NSAttributedString(string: " "))
-
+    
     var fontSize: CGFloat = maxFontSize
     
     // Optimization: start the "search" from the previously known used value, if the string is the same (eg the cursor color changed)
@@ -126,7 +126,7 @@ public class MaxFontTextView: UIView {
       if rect.size.contains(result.size) { break }
       fontSize -= 2
     } while fontSize > minFontSize
-
+    
     let vShift: CGFloat = {
       switch verticalAlignment {
       case .top: return 0
@@ -134,7 +134,7 @@ public class MaxFontTextView: UIView {
       case .bottom: return rect.height - result.height
       }
     }()
-
+    
     let box = CGRect(center: CGPoint(x: rect.center.x, y: result.center.y + vShift), size: CGSize(width: rect.width, height: result.height))
     attributedText.withFontSize(fontSize).draw(with: box, options: [.usesLineFragmentOrigin], context: nil)
     
