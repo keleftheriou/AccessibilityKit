@@ -22,7 +22,8 @@ class MaxFontTextViewCell: UITableViewCell {
   
   override func layoutSubviews() {
     gradient.frame = contentView.bounds
-    maxFontTextView.frame = contentView.bounds
+    // `MaxFontTextView` does not have any default padding, so add some here
+    maxFontTextView.frame = UIEdgeInsetsInsetRect(contentView.bounds, UIEdgeInsetsMake(10, 10, 10, 10))
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -33,23 +34,16 @@ class MaxFontTextViewCell: UITableViewCell {
 class ViewController: UITableViewController {
   
   var dataSource: [String] = [
-    "Test 😎",
-    "Another one",
-    "It works 💪",
-    "Testing",
-    "This is interesting",
-    "Line one.\nLine two!",
-    ":)",
-    "More text",
-    "CAPITAL LETTERS",
-    "❤️",
-    "Some text goes here",
-    "🙉🐶",
+    "Accessible text 😎",
+    "SMILE",
     "What happens if the text is longer?",
+    "It works! 💪",
     "COOL",
-    "Let's try this.\nNew line...\nAnother one.",
     "The quick brown fox jumped over the lazy dog.",
-    "Accessible text",
+    "🙉🐶",
+    "CAPITAL LETTERS",
+    "Some text goes here",
+    "❤️ :)",
     ]
   
   private let cellIdentifier = "MaxFontViewCellIdentifier"
@@ -60,6 +54,7 @@ class ViewController: UITableViewController {
     tableView.register(MaxFontTextViewCell.self, forCellReuseIdentifier: cellIdentifier)
     tableView.separatorStyle = .none
     tableView.alwaysBounceVertical = true
+    tableView.showsVerticalScrollIndicator = false
     tableView.backgroundColor = .black
   }
   
