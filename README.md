@@ -1,3 +1,4 @@
 # AccessibilityKit
 
-<img src="https://im.ezgif.com/tmp/ezgif-1-e2fd677e06.gif">
+## MaxFontTextView
+<img src="assets/textview-portrait.gif">
