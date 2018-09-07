@@ -34,16 +34,15 @@ class MaxFontTextViewCell: UITableViewCell {
 class ViewController: UITableViewController {
   
   var dataSource: [String] = [
+    "LARGE FONT SIZE",
     "Accessible text 😎",
-    "SMILE",
-    "What happens if the text is longer?",
-    "It works! 💪",
-    "COOL",
+    "What if the text is longer?",
     "The quick brown fox jumped over the lazy dog.",
-    "🙉🐶",
-    "CAPITAL LETTERS",
-    "Some text goes here",
-    "❤️ :)",
+    "Cool, it works! 💪",
+    "Multiple line support",
+    "Super fast font sizing",
+    "CUSTOM ALIGNMENT OPTIONS",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
     ]
   
   private let cellIdentifier = "MaxFontViewCellIdentifier"
@@ -56,6 +55,15 @@ class ViewController: UITableViewController {
     tableView.alwaysBounceVertical = true
     tableView.showsVerticalScrollIndicator = false
     tableView.backgroundColor = .black
+    
+    #if targetEnvironment(simulator)
+    Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { timer in
+      UIView.beginAnimations(nil, context: nil)
+      UIView.setAnimationDuration(1)
+      self.tableView.scrollToRow(at: self.tableView.indexPathsForVisibleRows!.last!, at: .top, animated: false)
+      UIView.commitAnimations()
+    }
+    #endif
   }
   
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
