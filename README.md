@@ -4,7 +4,7 @@
 
 MaxFontTextView is a text view that automatically uses the largest possible font size, spanning **multiple** lines as needed. It's great for when you need some text or label to be as visually accessible as possible, or just generally more appealing.
 
-You can also use all attributes of NSAttributableString as well as a built-in vertical alignment option. The text will always be efficiently rendered as large as possible, within the bounds of the view:
+You can also use all attributes of `NSAttributableString` as well as a built-in vertical alignment option. The text will always be efficiently rendered as large as possible, within the bounds of the view:
 
 <img src="assets/textview-portrait.gif"> <img src="assets/textview-landscape.gif">
 
