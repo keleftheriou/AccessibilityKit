@@ -1,6 +1,6 @@
 # AccessibilityKit ♿️
 
-## MaxFontTextView 🚀
+## MaxFontTextView
 
 MaxFontTextView is a text view that automatically uses the largest possible font size, spanning **multiple lines** as needed. It's great for when you need some text or label to be as visually accessible as possible, or just generally more appealing.
 
