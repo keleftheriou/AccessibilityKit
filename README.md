@@ -8,7 +8,7 @@ You can also use all attributes of NSAttributableString together with a built-in
 
 <img src="assets/textview-portrait.gif"> <img src="assets/textview-landscape.gif">
 
-## Why? 🤔
+## Why?
 
 - UILabel's `adjustsFontSizeToFitWidth` doesn't play nice with multiple lines.
 - UITextView doesn't have `adjustsFontSizeToFitWidth`.
@@ -16,7 +16,7 @@ You can also use all attributes of NSAttributableString together with a built-in
 - Other solutions don't support attributable strings.
 - Other solutions are slow.
 
-## Usage 👩🏻‍💻
+## Usage
 
 ```
 let textView = MaxFontTextView()
@@ -29,4 +29,4 @@ textView.verticalAlignment = .center
 
 ```
 
-## That's it! 👏
+## That's it! 👩🏻‍💻👏
