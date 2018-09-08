@@ -1,6 +1,6 @@
 # AccessibilityKit ♿️
 
-## MaxFontTextView 
+## MaxFontTextView 🔤
 
 MaxFontTextView is a text view that automatically uses the largest possible font size, spanning multiple lines as needed. It's great for when you need to make labels as visually accessible as possible, or just generally make your text more visible.
 
@@ -16,7 +16,7 @@ You can also use all attributes of NSAttributableString together with a built-in
 - Other solutions don't support attributable strings.
 - Other solutions are slow.
 
-## Usage 👩🏻‍💻👨🏻‍💻
+## Usage 👩🏻‍💻
 
 ```
 let textView = MaxFontTextView()
