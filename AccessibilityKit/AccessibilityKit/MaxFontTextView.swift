@@ -115,10 +115,10 @@ public class MaxFontTextView: UIView {
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     let startingFontSize = rect.height
-    let initFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, boundingSize: .greatestFiniteSize, options: [])
+    let longestWordFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, boundingSize: .greatestFiniteSize, options: [])
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
-    let fontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: initFontSize, boundingSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin])
+    let fontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: longestWordFontSize, boundingSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin])
     
     // Re-run to get the final boundingRect. TODO: we should keep the resulting rectangle from the last search call, or see if we can get it using a `NSStringDrawingContext` and its `totalBounds`
     let result = attributedText.withFontSize(fontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], context: nil)
