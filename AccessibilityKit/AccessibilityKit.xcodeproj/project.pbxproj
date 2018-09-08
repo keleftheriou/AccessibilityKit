@@ -17,7 +17,7 @@
 		0AF64561213D985900B31A57 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; };
 		0AF64566213D985900B31A57 /* AccessibilityKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64565213D985900B31A57 /* AccessibilityKitTests.swift */; };
 		0AF64568213D985900B31A57 /* AccessibilityKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF6455A213D985900B31A57 /* AccessibilityKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0AF64572213D9FD800B31A57 /* MaxFontTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64571213D9FD800B31A57 /* MaxFontTextView.swift */; };
+		0AF64572213D9FD800B31A57 /* AKTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64571213D9FD800B31A57 /* AKTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +65,7 @@
 		0AF64560213D985900B31A57 /* AccessibilityKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccessibilityKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF64565213D985900B31A57 /* AccessibilityKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityKitTests.swift; sourceTree = "<group>"; };
 		0AF64567213D985900B31A57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0AF64571213D9FD800B31A57 /* MaxFontTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxFontTextView.swift; sourceTree = "<group>"; };
+		0AF64571213D9FD800B31A57 /* AKTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +141,7 @@
 		0AF64559213D985900B31A57 /* AccessibilityKit */ = {
 			isa = PBXGroup;
 			children = (
-				0AF64571213D9FD800B31A57 /* MaxFontTextView.swift */,
+				0AF64571213D9FD800B31A57 /* AKTextView.swift */,
 				0AF6455A213D985900B31A57 /* AccessibilityKit.h */,
 				0AF6455B213D985900B31A57 /* Info.plist */,
 			);
@@ -309,7 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AF64572213D9FD800B31A57 /* MaxFontTextView.swift in Sources */,
+				0AF64572213D9FD800B31A57 /* AKTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

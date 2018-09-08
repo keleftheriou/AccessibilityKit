@@ -62,7 +62,7 @@ public enum TextVerticalAlignment {
   case bottom
 }
 
-public class MaxFontTextView: UIView {
+public class AKTextView: UIView {
   
   private let minFontSize: CGFloat = 1
   
