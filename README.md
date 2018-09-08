@@ -6,7 +6,7 @@ AKTextView is a text view that **automatically** uses the largest possible font 
 
 You can also use all attributes of `NSAttributableString`, as well as a built-in vertical alignment option. Text is **efficiently** rendered as large as possible, within the bounds of the view:
 
-<img src="assets/textview-portrait.gif"> <img src="assets/textview-landscape.gif">
+![Animated example of AKTextView, portrait](/assets/textview-portrait.gif) ![Animated example of AKTextView, landscape](/assets/textview-landscape.gif)
 
 ## Why?
 
