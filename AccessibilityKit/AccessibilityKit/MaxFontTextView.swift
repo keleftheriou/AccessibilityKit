@@ -64,7 +64,6 @@ public enum TextVerticalAlignment {
 
 public class MaxFontTextView: UIView {
   
-  private let maxFontSize: CGFloat = 500
   private let minFontSize: CGFloat = 1
   
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
@@ -115,7 +114,8 @@ public class MaxFontTextView: UIView {
     longestWord.append(NSAttributedString(string: " "))
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-    let initFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, boundingSize: .greatestFiniteSize, options: [])
+    let startingFontSize = rect.height
+    let initFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, boundingSize: .greatestFiniteSize, options: [])
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
     let fontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: initFontSize, boundingSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin])
