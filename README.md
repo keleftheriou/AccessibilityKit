@@ -10,7 +10,7 @@ You can also use all attributes of `NSAttributableString` as well as a built-in 
 
 ## Why?
 
-- `UILabel`s `adjustsFontSizeToFitWidth` doesn't play nice with multiple lines.
+- `UILabel`'s `adjustsFontSizeToFitWidth` doesn't play nice with multiple lines.
 - `UITextView` doesn't have `adjustsFontSizeToFitWidth`.
 - Other solutions might render some text incorrectly.
 - Other solutions don't support attributable strings.
