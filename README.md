@@ -1,6 +1,6 @@
-# AccessibilityKit
+# AccessibilityKit ♿️
 
-## MaxFontTextView 🚀
+## MaxFontTextView 
 
 MaxFontTextView is a text view that automatically uses the largest possible font size, spanning multiple lines as needed. It's great for when you need to make labels as visually accessible as possible, or just generally make your text more visible.
 
@@ -30,3 +30,5 @@ textView.attributedText = .init(string: "Some text here", attributes: [.foregrou
 textView.verticalAlignment = .center
 
 ```
+
+## That's it! 🚀
