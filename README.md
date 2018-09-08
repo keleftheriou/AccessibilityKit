@@ -30,6 +30,6 @@ textView.verticalAlignment = .center
 
 ```
 
-## That's it!
+## That's it! 👏
 
-# 👏
+AccessibilityKit is used in the award-winning, low-vision keyboard [FlickType](https://www.flicktype.com).
