@@ -25,8 +25,8 @@ let textView = MaxFontTextView()
 // Use a simple or fancy NSAttributableString
 textView.attributedText = .init(string: "Some text here", attributes: [.foregroundColor: UIColor.black])
 
-// Easily align vertically: top, center or bottom
-textView.verticalAlignment = .center
+// Optionally set the vertical alignment to top, center or bottom.
+textView.verticalAlignment = .center // default
 
 ```
 
