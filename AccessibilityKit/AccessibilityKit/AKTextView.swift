@@ -68,6 +68,7 @@ public class AKTextView: UIView {
   
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
   private let fontSizeAccuracyThreshold: CGFloat = 2
+  private var longestWord: NSAttributedString!
   
   public var verticalAlignment = TextVerticalAlignment.center {
     didSet { setNeedsDisplay() }
@@ -75,7 +76,23 @@ public class AKTextView: UIView {
   
   // TODO: use NSTextStorage, and NSLayoutManager for blinking cursor?
   public var attributedText = NSAttributedString() {
-    didSet { setNeedsDisplay() }
+    didSet {
+      // Ensure we never break a word into multiple lines.
+      // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
+      // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
+      // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
+      let (_longestWord, _) = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, context: nil).width) }.max { $0.1 < $1.1 }!
+      if _longestWord.length > 0 {
+        // All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround.
+        // TODO: only if italics?
+        let word = NSMutableAttributedString(attributedString: _longestWord)
+        word.append(NSAttributedString(string: " "))
+        longestWord = word
+      } else {
+        longestWord = nil
+      }
+      setNeedsDisplay()
+    }
   }
   
   override public init(frame: CGRect) {
@@ -96,22 +113,10 @@ public class AKTextView: UIView {
   }
   
   override public func draw(_ rect: CGRect) {
+    guard longestWord != nil else { return }
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
     //assert(rect == bounds)
-    
-    // Ensure we never break a word into multiple lines.
-    // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
-    // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
-    // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
-    let relativeWordWidths = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, context: nil).width) }
-    let (_longestWord, longestWordWidth) = relativeWordWidths.max { $0.1 < $1.1 }!
-    guard longestWordWidth > 0 else { return } // whitespace was "longest"
-    
-    // All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround.
-    // TODO: only if italics?
-    let longestWord = NSMutableAttributedString(attributedString: _longestWord)
-    longestWord.append(NSAttributedString(string: " "))
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     let startingFontSize = min(rect.height, rect.width)
