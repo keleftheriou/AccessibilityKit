@@ -114,7 +114,7 @@ public class AKTextView: UIView {
     longestWord.append(NSAttributedString(string: " "))
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-    let startingFontSize = rect.height
+    let startingFontSize = min(rect.height, rect.width)
     let longestWordFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, boundingSize: .greatestFiniteSize, options: [])
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
