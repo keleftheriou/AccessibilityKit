@@ -95,7 +95,7 @@ public class AKTextView: UIView {
     }
   }
   
-  override public func draw(_ rect: CGRect) {
+  override public func draw(_ rect0: CGRect) {
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
     //assert(rect == bounds)
@@ -112,6 +112,8 @@ public class AKTextView: UIView {
     // TODO: only if italics?
     let longestWord = NSMutableAttributedString(attributedString: _longestWord)
     longestWord.append(NSAttributedString(string: " "))
+    
+    let rect = bounds
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     let startingFontSize = min(rect.height, rect.width)
