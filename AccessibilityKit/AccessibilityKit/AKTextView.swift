@@ -20,11 +20,8 @@ public class AKTextView: UIView {
       // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
       let (_longestWord, _) = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }!
       if _longestWord.length > 0 {
-        // All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround.
-        // TODO: only if italics?
-        let word = NSMutableAttributedString(attributedString: _longestWord)
-        word.append(NSAttributedString(string: " "))
-        longestWord = word
+        // All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
+        longestWord = _longestWord
       } else {
         longestWord = nil
       }
