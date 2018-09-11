@@ -75,7 +75,7 @@ public class AKTextView: UIView {
     //assert(rect == bounds)
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-    let startingFontSize = roundedFontSize(min(rect.height, rect.width))
+    let startingFontSize = roundedFontSize(2 * min(rect.height, rect.width))
     let longestWordFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, fitInside: rect.size, canvasSize: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin))
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
