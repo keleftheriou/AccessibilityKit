@@ -81,7 +81,6 @@ public class AKTextView: UIView {
     didSet { setNeedsDisplay() }
   }
   
-  // TODO: use NSTextStorage, and NSLayoutManager for blinking cursor?
   public var attributedText = NSAttributedString() {
     didSet {
       // Ensure we never break a word into multiple lines.
@@ -118,6 +117,14 @@ public class AKTextView: UIView {
       return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitInside: fitInside, canvasSize:canvasSize, options: options)
     }
   }
+  
+  // TODO: use NSTextStorage and NSLayoutManager?
+  // NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:CGSizeMake(width, CGFLOAT_MAX)];
+  // NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+  // [layoutManager addTextContainer:textContainer];
+  // NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:formattedString];
+  // [textStorage addLayoutManager:layoutManager];
+  // CGRect rect = [layoutManager usedRectForTextContainer:textContainer];
   
   override public func draw(_ rect: CGRect) {
     guard longestWord != nil else { return }
