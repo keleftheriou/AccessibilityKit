@@ -1,61 +1,5 @@
 import UIKit
 
-fileprivate extension CGSize {
-  
-  static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-  
-  func contains(_ size: CGSize) -> Bool {
-    return width >= size.width && height >= size.height
-  }
-}
-
-fileprivate extension CGRect {
-  
-  init(center: CGPoint, size: CGSize) {
-    let origin = CGPoint(x:center.x - 0.5 * size.width, y:center.y - 0.5 * size.height)
-    self.init(origin: origin, size: size)
-  }
-  
-  var center: CGPoint {
-    return CGPoint(x: origin.x + 0.5 * size.width, y: origin.y + 0.5 * size.height)
-  }
-}
-
-fileprivate extension String {
-  func rangesOfCharacters(from characterSet: CharacterSet) -> [NSRange] {
-    var ranges = [Range<String.Index>]()
-    var position = startIndex
-    while let range = rangeOfCharacter(from: characterSet, range: position..<endIndex) {
-      ranges += [range]
-      guard let newPosition = index(range.upperBound, offsetBy: 1, limitedBy: endIndex) else { break }
-      position = newPosition
-    }
-    return ranges.map { NSRange($0, in: self) }
-  }
-}
-
-fileprivate extension NSAttributedString {
-  
-  var components: [NSAttributedString] {
-    var result = [NSAttributedString]()
-    var lastPosition = 0
-    string.rangesOfCharacters(from: .whitespacesAndNewlines).forEach { skipRange in
-      let range = NSRange(location: lastPosition, length: skipRange.location - lastPosition)
-      result += [attributedSubstring(from: range)]
-      lastPosition = skipRange.upperBound
-    }
-    result += [attributedSubstring(from: NSRange(location: lastPosition, length: length - lastPosition))]
-    return result
-  }
-  
-  func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
-    let result = NSMutableAttributedString(attributedString: self)
-    let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
-    result.addAttribute(.font, value: font, range: NSRange(location: 0, length: length))
-    return result
-  }
-}
-
 public enum TextVerticalAlignment {
   case top
   case center
@@ -160,3 +104,61 @@ public class AKTextView: UIView {
   
   required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
+
+
+fileprivate extension CGSize {
+  
+  static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+  
+  func contains(_ size: CGSize) -> Bool {
+    return width >= size.width && height >= size.height
+  }
+}
+
+fileprivate extension CGRect {
+  
+  init(center: CGPoint, size: CGSize) {
+    let origin = CGPoint(x:center.x - 0.5 * size.width, y:center.y - 0.5 * size.height)
+    self.init(origin: origin, size: size)
+  }
+  
+  var center: CGPoint {
+    return CGPoint(x: origin.x + 0.5 * size.width, y: origin.y + 0.5 * size.height)
+  }
+}
+
+fileprivate extension String {
+  func rangesOfCharacters(from characterSet: CharacterSet) -> [NSRange] {
+    var ranges = [Range<String.Index>]()
+    var position = startIndex
+    while let range = rangeOfCharacter(from: characterSet, range: position..<endIndex) {
+      ranges += [range]
+      guard let newPosition = index(range.upperBound, offsetBy: 1, limitedBy: endIndex) else { break }
+      position = newPosition
+    }
+    return ranges.map { NSRange($0, in: self) }
+  }
+}
+
+fileprivate extension NSAttributedString {
+  
+  var components: [NSAttributedString] {
+    var result = [NSAttributedString]()
+    var lastPosition = 0
+    string.rangesOfCharacters(from: .whitespacesAndNewlines).forEach { skipRange in
+      let range = NSRange(location: lastPosition, length: skipRange.location - lastPosition)
+      result += [attributedSubstring(from: range)]
+      lastPosition = skipRange.upperBound
+    }
+    result += [attributedSubstring(from: NSRange(location: lastPosition, length: length - lastPosition))]
+    return result
+  }
+  
+  func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
+    let result = NSMutableAttributedString(attributedString: self)
+    let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+    result.addAttribute(.font, value: font, range: NSRange(location: 0, length: length))
+    return result
+  }
+}
+
