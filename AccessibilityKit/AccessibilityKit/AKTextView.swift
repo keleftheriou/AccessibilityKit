@@ -68,6 +68,11 @@ public class AKTextView: UIView {
   
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
   private let fontSizeAccuracyThreshold: CGFloat = 2
+  
+  private func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
+    return round(fontSize / fontSizeAccuracyThreshold) * fontSizeAccuracyThreshold
+  }
+  
   private var longestWord: NSAttributedString!
   
   public var verticalAlignment = TextVerticalAlignment.center {
@@ -102,8 +107,8 @@ public class AKTextView: UIView {
   }
   
   private func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitInside: CGSize, canvasSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
-    if maxFontSize - minFontSize < fontSizeAccuracyThreshold { return minFontSize }
-    let avgSize = (minFontSize + maxFontSize) / 2
+    if maxFontSize - minFontSize <= fontSizeAccuracyThreshold { return minFontSize }
+    let avgSize = roundedFontSize((minFontSize + maxFontSize) / 2)
     let result = string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil)
     if fitInside.contains(result.size) {
       return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitInside: fitInside, canvasSize:canvasSize, options: options)
@@ -119,7 +124,7 @@ public class AKTextView: UIView {
     //assert(rect == bounds)
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-    let startingFontSize = min(rect.height, rect.width)
+    let startingFontSize = roundedFontSize(min(rect.height, rect.width))
     let longestWordFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, fitInside: rect.size, canvasSize: .greatestFiniteSize, options: [])
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
