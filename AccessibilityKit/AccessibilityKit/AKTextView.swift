@@ -79,7 +79,9 @@ public class AKTextView: UIView {
     maxFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitInside: rect.size, canvasSize: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin))
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
-    maxFontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitInside: rect.size, canvasSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions)
+    if attributedText.length > longestWord.length {
+      maxFontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitInside: rect.size, canvasSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions)
+    }
     
     // Re-run to get the final boundingRect.
     let result = attributedText.withFontSize(maxFontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions, context: nil)
