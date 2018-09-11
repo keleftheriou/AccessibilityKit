@@ -1,6 +1,6 @@
 # AccessibilityKit ♿️
 
-AccessibilityKit is a (soon to be) collection of APIs to help you develop better apps for people with visual impairements. The first such addition is `AKTextView`.
+**AccessibilityKit** is a (soon to be) collection of APIs to help you develop better apps for people with visual impairments, for the times when iOS doesn't have you covered. The first such API is `AKTextView`, with text-to-speech additions coming soon!
 
 ## AKTextView
 
