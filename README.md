@@ -2,9 +2,9 @@
 
 ## AKTextView
 
-`AKTextView` is a text view that **automatically** uses the largest possible font size, spanning **multiple lines** as needed. It's great for when you need some text or label to be as visually accessible as possible, or just generally more appealing.
+`AKTextView` is a text view that _automatically_ and _efficiently_ draws text using the largest possible font size, spanning **multiple lines** as needed to fill the view's bounds. It's great for when you need some text or label to be as visually accessible as possible, or to just generally make it more appealing. And it's efficient enough that it can perform _real-time_ resizing, if you ever need to do that. 😄
 
-You can also use all attributes of `NSAttributedString`, as well as a built-in vertical alignment option. Text is **efficiently** rendered as large as possible, within the bounds of the view.
+As a bonus, you can also use all attributes of `NSAttributedString`, as well as a built-in vertical alignment option. And emoji, of course.
 
 ## Examples
 ![Animated example of AKTextView, portrait](/assets/textview-portrait.gif) ![Animated example of AKTextView, landscape](/assets/textview-landscape.gif) ![Animated example of AKTextView](/assets/textview-resize.gif)
@@ -25,9 +25,6 @@ let view = AKTextView()
 
 // Use a simple or fancy NSAttributedString
 view.attributedText = .init(string: "Some text here", attributes: [.foregroundColor: UIColor.black])
-
-// Optionally set the vertical alignment to top, center or bottom.
-view.verticalAlignment = .center // default
 ```
 
 ## That's it! 👏
