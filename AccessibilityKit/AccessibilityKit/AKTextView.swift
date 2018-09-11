@@ -75,6 +75,7 @@ public class AKTextView: UIView {
   }
   
   private var longestWord: NSAttributedString!
+  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
   
   public var verticalAlignment = TextVerticalAlignment.center {
     didSet { setNeedsDisplay() }
@@ -87,7 +88,7 @@ public class AKTextView: UIView {
       // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
       // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
       // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
-      let (_longestWord, _) = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, context: nil).width) }.max { $0.1 < $1.1 }!
+      let (_longestWord, _) = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }!
       if _longestWord.length > 0 {
         // All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround.
         // TODO: only if italics?
@@ -126,13 +127,13 @@ public class AKTextView: UIView {
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     let startingFontSize = roundedFontSize(min(rect.height, rect.width))
-    let longestWordFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, fitInside: rect.size, canvasSize: .greatestFiniteSize, options: [])
+    let longestWordFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: startingFontSize, fitInside: rect.size, canvasSize: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin))
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
-    let fontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: longestWordFontSize, fitInside: rect.size, canvasSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin])
+    let fontSize = binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: longestWordFontSize, fitInside: rect.size, canvasSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions)
     
     // Re-run to get the final boundingRect.
-    let result = attributedText.withFontSize(fontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], context: nil)
+    let result = attributedText.withFontSize(fontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions, context: nil)
     
     let vShift: CGFloat = {
       switch verticalAlignment {
@@ -143,7 +144,7 @@ public class AKTextView: UIView {
     }()
     
     let box = CGRect(center: CGPoint(x: rect.center.x, y: result.center.y + vShift), size: CGSize(width: rect.width, height: result.height))
-    attributedText.withFontSize(fontSize).draw(with: box, options: [.usesLineFragmentOrigin], context: nil)
+    attributedText.withFontSize(fontSize).draw(with: box, options: drawingOptions, context: nil)
   }
   
   required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
