@@ -2,13 +2,13 @@ import UIKit
 
 public class AKTextView: UIView {
   
-  public enum TextVerticalAlignment {
+  public enum VerticalAlignment {
     case top
     case center
     case bottom
   }
   
-  public var verticalAlignment = TextVerticalAlignment.center {
+  public var verticalAlignment: VerticalAlignment = .center {
     didSet { setNeedsDisplay() }
   }
   
