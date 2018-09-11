@@ -64,13 +64,14 @@ public class AKTextView: UIView {
     }
   }
   
-  // TODO: use NSTextStorage and NSLayoutManager?
+  // TODO: To draw strings repeatedly, it is more efficient to use NSLayoutManager, as described in Drawing Strings in Text Layout Programming Guide.
   // NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:CGSizeMake(width, CGFLOAT_MAX)];
   // NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
   // [layoutManager addTextContainer:textContainer];
   // NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:formattedString];
   // [textStorage addLayoutManager:layoutManager];
   // CGRect rect = [layoutManager usedRectForTextContainer:textContainer];
+  // CGRect rect = [layoutManager boundingRectForGlyphRange:NSMakeRange(0, [[self textStorage] length]) inTextContainer:textContainer];
   
   override public func draw(_ rect: CGRect) {
     guard longestWord != nil else { return }
@@ -156,6 +157,7 @@ fileprivate extension NSAttributedString {
   
   func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
     let result = NSMutableAttributedString(attributedString: self)
+    // TODO: should iterate through all existing font attributes and change their sizes
     let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
     result.addAttribute(.font, value: font, range: NSRange(location: 0, length: length))
     return result
