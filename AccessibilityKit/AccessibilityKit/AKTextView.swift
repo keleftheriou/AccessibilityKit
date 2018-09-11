@@ -67,7 +67,8 @@ public class AKTextView: UIView {
   private let minFontSize: CGFloat = 1
   
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
-  private let fontSizeAccuracyThreshold: CGFloat = 2
+  // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
+  private let fontSizeAccuracyThreshold: CGFloat = 1.0
   
   private func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
     return round(fontSize / fontSizeAccuracyThreshold) * fontSizeAccuracyThreshold
