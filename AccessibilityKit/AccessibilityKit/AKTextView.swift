@@ -1,12 +1,12 @@
 import UIKit
 
-public enum TextVerticalAlignment {
-  case top
-  case center
-  case bottom
-}
-
 public class AKTextView: UIView {
+  
+  public enum TextVerticalAlignment {
+    case top
+    case center
+    case bottom
+  }
   
   public var verticalAlignment = TextVerticalAlignment.center {
     didSet { setNeedsDisplay() }
@@ -32,13 +32,13 @@ public class AKTextView: UIView {
     }
   }
   
+  ///////////////////////////////////////////////////////////////////////////////////////
+
   override public init(frame: CGRect) {
     super.init(frame: frame)
     contentMode = .redraw
     isOpaque = false
   }
-  
-  ///////////////////////////////////////////////////////////////////////////////////////
   
   private let minFontSize: CGFloat = 1
   
