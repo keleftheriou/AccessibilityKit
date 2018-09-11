@@ -2,7 +2,7 @@
 
 ## AKTextView
 
-`AKTextView` is a text view that _automatically_ and _efficiently_ draws text using the largest possible font size, spanning **multiple lines** as needed to fill the view's bounds. It's great for when you need some text or label to be as visually accessible as possible, or to just generally make it more appealing. And it's efficient enough that it can perform _real-time_ resizing, if you ever need to do that. 😄
+`AKTextView` is a text view that _automatically_ and _efficiently_ draws text using the largest possible font size, spanning **multiple lines** as needed to fill the view's bounds. It's great for when you need some text or label to be as visually accessible as possible, or to just generally make it more appealing. It's efficient enough that it can perform real-time resizing, if you ever need to do that. 😄
 
 As a bonus, you can also use all attributes of `NSAttributedString`, as well as a built-in vertical alignment option. And emoji, of course.
 
