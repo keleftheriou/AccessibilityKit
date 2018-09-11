@@ -58,10 +58,9 @@ class ViewController: UITableViewController {
     
     #if targetEnvironment(simulator)
     Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true) { timer in
-      UIView.beginAnimations(nil, context: nil)
-      UIView.setAnimationDuration(1)
-      self.tableView.scrollToRow(at: self.tableView.indexPathsForVisibleRows!.last!, at: .top, animated: false)
-      UIView.commitAnimations()
+      UIView.animate(withDuration: 1.0) {
+        self.tableView.scrollToRow(at: self.tableView.indexPathsForVisibleRows!.last!, at: .top, animated: false)
+      }
     }
     #endif
   }
