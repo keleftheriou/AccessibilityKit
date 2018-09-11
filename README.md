@@ -7,7 +7,7 @@
 You can also use all attributes of `NSAttributedString`, as well as a built-in vertical alignment option. Text is **efficiently** rendered as large as possible, within the bounds of the view.
 
 ## Examples
-![Animated example of AKTextView, portrait](/assets/textview-portrait.gif) ![Animated example of AKTextView, landscape](/assets/textview-landscape.gif)
+![Animated example of AKTextView, portrait](/assets/textview-portrait.gif) ![Animated example of AKTextView, landscape](/assets/textview-landscape.gif) ![Animated example of AKTextView](/assets/textview-resize.gif)
 
 ## Why?
 
