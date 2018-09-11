@@ -64,19 +64,6 @@ public enum TextVerticalAlignment {
 
 public class AKTextView: UIView {
   
-  private let minFontSize: CGFloat = 1
-  
-  // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
-  // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
-  private let fontSizeAccuracyThreshold: CGFloat = 1.0
-  
-  private func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
-    return round(fontSize / fontSizeAccuracyThreshold) * fontSizeAccuracyThreshold
-  }
-  
-  private var longestWord: NSAttributedString!
-  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
-  
   public var verticalAlignment = TextVerticalAlignment.center {
     didSet { setNeedsDisplay() }
   }
@@ -106,6 +93,23 @@ public class AKTextView: UIView {
     contentMode = .redraw
     isOpaque = false
   }
+  
+  ///////////////////////////////////////////////////////////////////////////////////////
+  
+  private let minFontSize: CGFloat = 1
+  
+  // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
+  // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
+  private let fontSizeAccuracyThreshold: CGFloat = 1.0
+  
+  private func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
+    return round(fontSize / fontSizeAccuracyThreshold) * fontSizeAccuracyThreshold
+  }
+  
+  private var longestWord: NSAttributedString!
+  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
+  
+  
   
   private func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitInside: CGSize, canvasSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
     let avgSize = roundedFontSize((minFontSize + maxFontSize) / 2)
