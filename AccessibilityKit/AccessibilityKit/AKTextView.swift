@@ -14,18 +14,16 @@ public class AKTextView: UIView {
   
   public var attributedText = NSAttributedString() {
     didSet {
+      defer { setNeedsDisplay() }
+      longestWord = nil
+      let components = attributedText.components.filter { $0.length > 0 }
+      guard !components.isEmpty else { return }
       // Ensure we never break a word into multiple lines.
       // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
       // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
       // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
-      let (_longestWord, _) = attributedText.components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }!
-      if _longestWord.length > 0 {
-        // All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
-        longestWord = _longestWord
-      } else {
-        longestWord = nil
-      }
-      setNeedsDisplay()
+      longestWord = components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }?.0
+      // TODO: All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
     }
   }
   
@@ -49,7 +47,6 @@ public class AKTextView: UIView {
   
   private var longestWord: NSAttributedString!
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
-  
   
   
   private func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitInside: CGSize, canvasSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
