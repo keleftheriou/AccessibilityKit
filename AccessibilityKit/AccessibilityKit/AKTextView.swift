@@ -20,9 +20,13 @@ public class AKTextView: UIView {
       guard !components.isEmpty else { return }
       // Ensure we never break a word into multiple lines.
       // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
-      // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
-      // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
-      longestWord = components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }?.0
+
+      // NOTE: If we don't specify the same arbitrary font size here, two long words with very similar sizes might "flip" in terms of which one is longest as the font size changes, eg:
+      // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [.font: UIFont.systemFont(ofSize: 100)], context: nil).width }
+      // [40.13671875, 40.5029296875] // "dynamic" is always larger, regardless of specified font size, as expected
+      // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [:], context: nil).width }
+      // [45.357421875, 44.68359375] // "example" is larger when no font is specified. What font is even used here??
+      longestWord = components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }?.0
       // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
     }
   }
