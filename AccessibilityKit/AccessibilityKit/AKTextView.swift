@@ -23,7 +23,7 @@ public class AKTextView: UIView {
       // Assumes that the word is always going to be the longest regardless of how small the final font is (could be off due to hinting, so two long words with very
       // similar sizes might "flip" in terms of which one is longest as the font size gets smaller).
       longestWord = components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }?.0
-      // TODO: All iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
+      // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
     }
   }
   
