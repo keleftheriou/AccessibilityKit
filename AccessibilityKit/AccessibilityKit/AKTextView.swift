@@ -107,8 +107,8 @@ public class AKTextView: UIView {
   }
   
   private func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitInside: CGSize, canvasSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
-    if maxFontSize - minFontSize <= fontSizeAccuracyThreshold { return minFontSize }
     let avgSize = roundedFontSize((minFontSize + maxFontSize) / 2)
+    if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
     let result = string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil)
     if fitInside.contains(result.size) {
       return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitInside: fitInside, canvasSize:canvasSize, options: options)
