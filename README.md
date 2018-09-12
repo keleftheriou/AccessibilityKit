@@ -1,5 +1,7 @@
 # AccessibilityKit ♿️
 
+**AccessibilityKit** is a (soon to be) collection of APIs to help you develop better apps for people with visual impairments, for the times when iOS doesn't have you covered. The first such API is `AKTextView`, with text-to-speech additions coming soon!
+
 ## AKTextView
 
 `AKTextView` is a text view that _automatically_ and _efficiently_ draws text using the largest possible font size, spanning **multiple lines** as needed to fill the view's bounds. It's great for when you need some text or label to be as visually accessible as possible, or to just generally make it more appealing. It's efficient enough that it can perform real-time resizing, if you ever need to do that. 😄
