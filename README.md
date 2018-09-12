@@ -31,7 +31,7 @@ let view = AKTextView()
 view.attributedText = .init(string: "Some text here", attributes: [.foregroundColor: UIColor.black])
 ```
 
-# Text-to-speech additions coming soon!
+# Text-to-speech additions coming soon
 
 # That's it! 👏
 
