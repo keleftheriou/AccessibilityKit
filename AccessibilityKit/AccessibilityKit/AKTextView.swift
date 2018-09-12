@@ -58,8 +58,7 @@ public class AKTextView: UIView {
     if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
     let singleLine = !options.contains(.usesLineFragmentOrigin)
     let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : maxSize.width, height: .greatestFiniteMagnitude)
-    let result = string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil)
-    if maxSize.contains(result.size) {
+    if maxSize.contains(string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil).size) {
       return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, maxSize: maxSize, options: options)
     } else {
       return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, maxSize: maxSize, options: options)
