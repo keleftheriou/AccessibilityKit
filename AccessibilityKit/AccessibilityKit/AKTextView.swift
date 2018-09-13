@@ -20,7 +20,7 @@ fileprivate class TextUtilities {
   
 }
 
-public class AKTextView: UIView {
+public class AKLabel: UIView {
   
   @objc
   public enum VerticalAlignment : Int {
@@ -109,7 +109,7 @@ public class AKTextView: UIView {
 }
 
 
-public class AKEditableTextView: UITextView {
+public class AKTextView: UITextView {
   
   private let fontSizeAccuracyThreshold: CGFloat = 0.1
   // NOTE: .usesDeviceMetrics might result in chopped text. Presumably the way UITextView decides to draw does *not* include that option
