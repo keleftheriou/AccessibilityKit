@@ -164,9 +164,10 @@ public class AKTextView: UITextView {
     
     let minFontSize: CGFloat = 1
     var maxFontSize: CGFloat = 500
-    maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: textContainer.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
-    maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: textContainer.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
-    
+    let fitSize = textContainer.size
+    maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
+
     attributedText = attributedText.withFontSize(maxFontSize)
   }
   
