@@ -132,7 +132,7 @@ public class AKTextView: UITextView {
     
     // Remove the padding top and left of the text view
     self.textContainer.lineFragmentPadding = 0 // horizontal padding
-    self.textContainerInset = UIEdgeInsets.zero
+    self.textContainerInset = .zero
     
     isScrollEnabled = false
   }
