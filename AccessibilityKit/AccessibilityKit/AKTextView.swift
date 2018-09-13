@@ -141,17 +141,17 @@ public class AKEditableTextView: UITextView {
   }
   
   // TODO: To draw strings repeatedly, it is more efficient to use NSLayoutManager, as described in Drawing Strings in Text Layout Programming Guide.
-  func testFunc(rect: CGRect) {
-    let layoutManager = NSLayoutManager()
-    let textContainer = NSTextContainer(size: rect.size)
-    let textStorage = NSTextStorage(attributedString: attributedText)
-    textStorage.addLayoutManager(layoutManager)
-    layoutManager.addTextContainer(textContainer)
-    let glyphRange = layoutManager.glyphRange(for: textContainer)
-    // draw or just get boundingRect
-    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
-    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
-  }
+//  func testFunc(rect: CGRect) {
+//    let layoutManager = NSLayoutManager()
+//    let textContainer = NSTextContainer(size: rect.size)
+//    let textStorage = NSTextStorage(attributedString: attributedText)
+//    textStorage.addLayoutManager(layoutManager)
+//    layoutManager.addTextContainer(textContainer)
+//    let glyphRange = layoutManager.glyphRange(for: textContainer)
+//    // draw or just get boundingRect
+//    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
+//    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+//  }
   
   public override func layoutSubviews() {
     super.layoutSubviews()
