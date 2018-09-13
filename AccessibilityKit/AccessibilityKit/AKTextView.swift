@@ -2,16 +2,19 @@ import UIKit
 
 public class AKTextView: UIView {
   
-  public enum VerticalAlignment {
+  @objc
+  public enum VerticalAlignment : Int {
     case top
     case center
     case bottom
   }
   
+  @objc
   public var verticalAlignment: VerticalAlignment = .center {
     didSet { setNeedsDisplay() }
   }
   
+  @objc
   public var attributedText = NSAttributedString() {
     didSet {
       defer { setNeedsDisplay() }
