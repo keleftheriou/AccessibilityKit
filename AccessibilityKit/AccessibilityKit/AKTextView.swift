@@ -112,7 +112,8 @@ public class AKTextView: UIView {
 public class AKEditableTextView: UITextView {
   
   private let fontSizeAccuracyThreshold: CGFloat = 0.1
-  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading, .usesDeviceMetrics]
+  // NOTE: .usesDeviceMetrics might result in chopped text. Presumably the way UITextView decides to draw does *not* include that option
+  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
   func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
   
   public override var attributedText: NSAttributedString! {
