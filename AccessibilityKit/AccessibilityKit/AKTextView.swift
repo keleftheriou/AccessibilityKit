@@ -66,13 +66,17 @@ public class AKTextView: UIView {
   }
   
   // TODO: To draw strings repeatedly, it is more efficient to use NSLayoutManager, as described in Drawing Strings in Text Layout Programming Guide.
-  // NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:CGSizeMake(width, CGFLOAT_MAX)];
-  // NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-  // [layoutManager addTextContainer:textContainer];
-  // NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:formattedString];
-  // [textStorage addLayoutManager:layoutManager];
-  // CGRect rect = [layoutManager usedRectForTextContainer:textContainer];
-  // CGRect rect = [layoutManager boundingRectForGlyphRange:NSMakeRange(0, [[self textStorage] length]) inTextContainer:textContainer];
+//  func testFunc(rect: CGRect) {
+//    let layoutManager = NSLayoutManager()
+//    let textContainer = NSTextContainer(size: rect.size)
+//    let textStorage = NSTextStorage(attributedString: attributedText)
+//    textStorage.addLayoutManager(layoutManager)
+//    layoutManager.addTextContainer(textContainer)
+//    let glyphRange = layoutManager.glyphRange(for: textContainer)
+//    // draw or just get boundingRect
+//    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
+//    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+//  }
   
   override public func draw(_ rect: CGRect) {
     guard longestWord != nil else { return }
