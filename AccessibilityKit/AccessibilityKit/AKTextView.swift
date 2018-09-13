@@ -75,20 +75,6 @@ public class AKTextView: UIView {
   private var longestWord: NSAttributedString!
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
   
-  
-  // TODO: To draw strings repeatedly, it is more efficient to use NSLayoutManager, as described in Drawing Strings in Text Layout Programming Guide.
-//  func testFunc(rect: CGRect) {
-//    let layoutManager = NSLayoutManager()
-//    let textContainer = NSTextContainer(size: rect.size)
-//    let textStorage = NSTextStorage(attributedString: attributedText)
-//    textStorage.addLayoutManager(layoutManager)
-//    layoutManager.addTextContainer(textContainer)
-//    let glyphRange = layoutManager.glyphRange(for: textContainer)
-//    // draw or just get boundingRect
-//    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
-//    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
-//  }
-  
   override public func draw(_ rect: CGRect) {
     guard longestWord != nil else { return }
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
@@ -120,6 +106,67 @@ public class AKTextView: UIView {
   }
   
   required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+}
+
+
+public class AKEditableTextView: UITextView {
+  
+  private let fontSizeAccuracyThreshold: CGFloat = 0.1
+  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading, .usesDeviceMetrics]
+  func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
+  
+  public override var attributedText: NSAttributedString! {
+    set {
+      // For some reason, if the attributed text does not have a font we may have line spacing / positioning issues
+      precondition(newValue.attributes(at: 0, effectiveRange: nil)[.font] != nil)
+      super.attributedText = newValue
+    }
+    get {
+      return super.attributedText
+    }
+  }
+  
+  public override init(frame: CGRect, textContainer: NSTextContainer?) {
+    super.init(frame: frame, textContainer: textContainer)
+    
+    // Remove the padding top and left of the text view
+    self.textContainer.lineFragmentPadding = 0 // horizontal padding
+    self.textContainerInset = UIEdgeInsets.zero
+    
+    isScrollEnabled = false
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // TODO: To draw strings repeatedly, it is more efficient to use NSLayoutManager, as described in Drawing Strings in Text Layout Programming Guide.
+  func testFunc(rect: CGRect) {
+    let layoutManager = NSLayoutManager()
+    let textContainer = NSTextContainer(size: rect.size)
+    let textStorage = NSTextStorage(attributedString: attributedText)
+    textStorage.addLayoutManager(layoutManager)
+    layoutManager.addTextContainer(textContainer)
+    let glyphRange = layoutManager.glyphRange(for: textContainer)
+    // draw or just get boundingRect
+    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
+    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+  }
+  
+  public override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    let longestWord = attributedText.components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), context: nil).width) }.max { $0.1 < $1.1 }?.0
+
+    
+    let minFontSize: CGFloat = 1
+    var maxFontSize: CGFloat = 500
+    maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, maxSize: textContainer.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, maxSize: textContainer.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
+    
+    attributedText = attributedText.withFontSize(maxFontSize)
+  }
+  
 }
 
 
