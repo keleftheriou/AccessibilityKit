@@ -6,15 +6,15 @@ fileprivate class TextUtilities {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
-  fileprivate static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, maxSize: CGSize, options: NSStringDrawingOptions, accuracyThreshold: CGFloat) -> CGFloat {
+  fileprivate static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions, accuracyThreshold: CGFloat) -> CGFloat {
     let avgSize = roundedFontSize((minFontSize + maxFontSize)/2, accuracyThreshold: accuracyThreshold)
     if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
     let singleLine = !options.contains(.usesLineFragmentOrigin)
-    let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : maxSize.width, height: .greatestFiniteMagnitude)
-    if maxSize.contains(string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil).size) {
-      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, maxSize: maxSize, options: options, accuracyThreshold: accuracyThreshold)
+    let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
+    if fitSize.contains(string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil).size) {
+      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, options: options, accuracyThreshold: accuracyThreshold)
     } else {
-      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, maxSize: maxSize, options: options, accuracyThreshold: accuracyThreshold)
+      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, options: options, accuracyThreshold: accuracyThreshold)
     }
   }
   
@@ -83,11 +83,11 @@ public class AKTextView: UIView {
     
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     var maxFontSize = roundedFontSize(2 * min(rect.height, rect.width))
-    maxFontSize = TextUtilities.binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, maxSize: rect.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = TextUtilities.binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
     if attributedText.length > longestWord.length {
-      maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, maxSize: rect.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
+      maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
     }
     
     // Re-run to get the final boundingRect.
@@ -162,8 +162,8 @@ public class AKEditableTextView: UITextView {
     
     let minFontSize: CGFloat = 1
     var maxFontSize: CGFloat = 500
-    maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, maxSize: textContainer.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
-    maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, maxSize: textContainer.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: textContainer.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: textContainer.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
     
     attributedText = attributedText.withFontSize(maxFontSize)
   }
