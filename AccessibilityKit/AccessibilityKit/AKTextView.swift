@@ -152,13 +152,15 @@ public class AKEditableTextView: UITextView {
 //    // draw or just get boundingRect
 //    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
 //    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+//      let rect1 = attributedText.boundingRect(with: textContainer.size, options: [.usesLineFragmentOrigin], context: nil)
+//      let rect2 = layoutManager.boundingRect(forGlyphRange: layoutManager.glyphRange(for: textContainer), in: textContainer)
+//      if rect1 != rect2 { print(maxFontSize, bounds.size, rect1.size, rect2.size) }
 //  }
   
   public override func layoutSubviews() {
     super.layoutSubviews()
     
     let longestWord = attributedText.components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
-
     
     let minFontSize: CGFloat = 1
     var maxFontSize: CGFloat = 500
