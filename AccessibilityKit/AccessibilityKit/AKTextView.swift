@@ -245,9 +245,19 @@ fileprivate extension NSAttributedString {
   func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
     guard length > 0 else { return self }
     let result = NSMutableAttributedString(attributedString: self)
-    // TODO: should iterate through all existing font attributes and change their sizes
-    let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
-    result.addAttribute(.font, value: font, range: NSRange(location: 0, length: length))
+    result.enumerateAttribute(.font, in: NSRange(location: 0, length: result.length), options: []) { value, range, stop in
+      guard let value = value else { preconditionFailure("String must have a font set in all locations.") }
+      let oldFont: UIFont = value as! UIFont
+      let newFont: UIFont = oldFont.withSize(fontSize)
+      result.removeAttribute(.font, range: range)
+      result.addAttribute(.font, value: newFont, range: range)
+    }
+    
+    // Fix for emoji
+    // https://stackoverflow.com/questions/40914624/what-is-the-nsoriginalfont-attribute-in-nsattributedstring
+    result.removeAttribute(NSAttributedStringKey(rawValue: "NSOriginalFont"), range: NSMakeRange(0, result.length))
+    return result
+  }
     return result
   }
 }
