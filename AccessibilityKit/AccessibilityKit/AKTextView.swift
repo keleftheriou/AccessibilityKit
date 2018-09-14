@@ -123,12 +123,8 @@ public class AKTextView: UITextView {
   public override var attributedText: NSAttributedString! {
     set {
       // For some reason, if the attributed text does not have a font we may have line spacing / positioning issues
-      let hasFont = newValue.attributes(at: 0, effectiveRange: nil)[.font] != nil
-      if hasFont {
-        super.attributedText = newValue
-      } else {
-        super.attributedText = newValue.withFontSize(12) // font size will be overriden
-      }
+      precondition(newValue.hasFontFullySpecified, "You must specify a font for all parts of the string.")
+      super.attributedText = newValue
       setNeedsLayout()
     }
     get {
@@ -258,6 +254,15 @@ fileprivate extension NSAttributedString {
     result.removeAttribute(NSAttributedStringKey(rawValue: "NSOriginalFont"), range: NSMakeRange(0, result.length))
     return result
   }
+  
+  var hasFontFullySpecified: Bool {
+    var result = true
+    self.enumerateAttribute(.font, in: NSRange(location: 0, length: length), options: []) { value, range, stop in
+      if value == nil {
+        result = false
+        stop.pointee = true
+      }
+    }
     return result
   }
 }
