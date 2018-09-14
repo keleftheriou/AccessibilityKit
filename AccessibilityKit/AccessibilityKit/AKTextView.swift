@@ -111,6 +111,7 @@ public class AKLabel: UIView {
 
 public class AKTextView: UITextView {
   
+  private let minFontSize: CGFloat = 1
   private let fontSizeAccuracyThreshold: CGFloat = 0.1
   // NOTE: .usesDeviceMetrics might result in chopped text. Seems that `UITextView` does *not* include that option when drawing.
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
@@ -162,7 +163,6 @@ public class AKTextView: UITextView {
     
     let longestWord = attributedText.components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
     
-    let minFontSize: CGFloat = 1
     var maxFontSize: CGFloat = 500
     let fitSize = textContainer.size
     maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
