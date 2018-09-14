@@ -20,14 +20,14 @@ fileprivate class TextUtilities {
   
 }
 
+@objc
+public enum VerticalAlignment : Int {
+  case top
+  case center
+  case bottom
+}
+
 public class AKLabel: UIView {
-  
-  @objc
-  public enum VerticalAlignment : Int {
-    case top
-    case center
-    case bottom
-  }
   
   @objc
   public var verticalAlignment: VerticalAlignment = .center {
