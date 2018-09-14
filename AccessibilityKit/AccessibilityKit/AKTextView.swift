@@ -137,6 +137,7 @@ public class AKTextView: UITextView {
     // Remove internal horizontal padding
     self.textContainer.lineFragmentPadding = 0
     
+    isScrollEnabled = false
   }
   
   required init?(coder aDecoder: NSCoder) {
