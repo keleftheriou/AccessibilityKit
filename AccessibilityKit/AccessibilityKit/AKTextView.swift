@@ -112,7 +112,7 @@ public class AKLabel: UIView {
 public class AKTextView: UITextView {
   
   private let fontSizeAccuracyThreshold: CGFloat = 0.1
-  // NOTE: .usesDeviceMetrics might result in chopped text. Presumably the way UITextView decides to draw does *not* include that option
+  // NOTE: .usesDeviceMetrics might result in chopped text. Seems that `UITextView` does *not* include that option when drawing.
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
   func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
   
