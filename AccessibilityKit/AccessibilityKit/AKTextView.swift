@@ -111,6 +111,9 @@ public class AKLabel: UIView {
 
 public class AKTextView: UITextView {
   
+  @objc
+  public var verticalAlignment: VerticalAlignment = .center
+  
   private let minFontSize: CGFloat = 1
   private let fontSizeAccuracyThreshold: CGFloat = 0.1
   // NOTE: .usesDeviceMetrics might result in chopped text. Seems that `UITextView` does *not* include that option when drawing.
@@ -168,6 +171,17 @@ public class AKTextView: UITextView {
     maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
 
     attributedText = attributedText.withFontSize(maxFontSize)
+
+    // We are all set, unless we want to vertically align center or bottom
+    guard verticalAlignment != .top else { return }
+    
+    // Both of these return the same height, but different width. Not sure why.
+    //let textRect = attributedText.boundingRect(with: fitSize, options: drawingOptions, context: nil)
+    let textRect = layoutManager.boundingRect(forGlyphRange: layoutManager.glyphRange(for: textContainer), in: textContainer)
+    let padding = max(0, fitSize.height - textRect.height)
+    let yShift = verticalAlignment == .center ? padding/2 : padding
+    // The first view is a _UITextContainerView
+    subviews.first?.transform = CGAffineTransform(translationX: 0, y: yShift)
   }
   
 }
