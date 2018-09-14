@@ -238,6 +238,7 @@ fileprivate extension NSAttributedString {
   }
   
   func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
+    guard length > 0 else { return self }
     let result = NSMutableAttributedString(attributedString: self)
     // TODO: should iterate through all existing font attributes and change their sizes
     let font = (attributes(at: 0, effectiveRange: nil)[.font] as? UIFont)?.withSize(fontSize) ?? UIFont.systemFont(ofSize: fontSize)
