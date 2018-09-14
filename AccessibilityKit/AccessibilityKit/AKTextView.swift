@@ -129,6 +129,7 @@ public class AKTextView: UITextView {
       } else {
         super.attributedText = newValue.withFontSize(12) // font size will be overriden
       }
+      setNeedsLayout()
     }
     get {
       return super.attributedText
@@ -176,8 +177,8 @@ public class AKTextView: UITextView {
     maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
     maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
 
-    attributedText = attributedText.withFontSize(maxFontSize)
 
+    super.attributedText = attributedText.withFontSize(maxFontSize)
     // We are all set, unless we want to vertically align center or bottom
     guard verticalAlignment != .top else { return }
     
