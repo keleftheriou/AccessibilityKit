@@ -115,7 +115,7 @@ public class AKTextView: UITextView {
   public var verticalAlignment: VerticalAlignment = .center
   
   private let minFontSize: CGFloat = 1
-  private let fontSizeAccuracyThreshold: CGFloat = 0.1
+  private let fontSizeAccuracyThreshold: CGFloat = 1.0
   // NOTE: .usesDeviceMetrics might result in chopped text. Seems that `UITextView` does *not* include that option when drawing.
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
   func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
