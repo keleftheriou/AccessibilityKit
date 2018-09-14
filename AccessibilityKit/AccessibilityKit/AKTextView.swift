@@ -166,9 +166,9 @@ public class AKTextView: UITextView {
     guard attributedText != nil, attributedText.length > 0 else { return }
     let longestWord = attributedText.components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
     
-    var maxFontSize: CGFloat = 500
     // We don't simply use `textContainer.size` because it will have infinite Y size if scrolling is enabled
     let fitSize = UIEdgeInsetsInsetRect(bounds, textContainerInset).size
+    var maxFontSize = roundedFontSize(2 * min(fitSize.height, fitSize.width))
     maxFontSize = TextUtilities.binarySearch(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
     maxFontSize = TextUtilities.binarySearch(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
 
