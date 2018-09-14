@@ -162,6 +162,7 @@ public class AKTextView: UITextView {
   public override func layoutSubviews() {
     super.layoutSubviews()
     
+    guard attributedText != nil, attributedText.length > 0 else { return }
     let longestWord = attributedText.components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
     
     var maxFontSize: CGFloat = 500
