@@ -131,9 +131,8 @@ public class AKTextView: UITextView {
   public override init(frame: CGRect, textContainer: NSTextContainer?) {
     super.init(frame: frame, textContainer: textContainer)
     
-    // Remove the padding top and left of the text view
-    self.textContainer.lineFragmentPadding = 0 // horizontal padding
-    self.textContainerInset = .zero
+    // Remove internal horizontal padding
+    self.textContainer.lineFragmentPadding = 0
     
   }
   
