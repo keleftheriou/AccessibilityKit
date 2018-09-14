@@ -11,7 +11,8 @@ fileprivate class TextUtilities {
     if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
     let singleLine = !options.contains(.usesLineFragmentOrigin)
     let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
-    if fitSize.contains(string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil).size) {
+    let newSize = string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil).size
+    if fitSize.contains(newSize) {
       return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, options: options, accuracyThreshold: accuracyThreshold)
     } else {
       return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, options: options, accuracyThreshold: accuracyThreshold)
