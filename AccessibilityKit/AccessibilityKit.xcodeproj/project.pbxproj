@@ -14,6 +14,7 @@
 		0A628B51213DBD9E00478E06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A628B4F213DBD9E00478E06 /* LaunchScreen.storyboard */; };
 		0A628B5F213DC1DE00478E06 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; };
 		0A628B60213DC1DE00478E06 /* AccessibilityKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0AC9ABAD214DBE8B00C52125 /* AKTextUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */; };
 		0AF64561213D985900B31A57 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; };
 		0AF64566213D985900B31A57 /* AccessibilityKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64565213D985900B31A57 /* AccessibilityKitTests.swift */; };
 		0AF64568213D985900B31A57 /* AccessibilityKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF6455A213D985900B31A57 /* AccessibilityKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,6 +60,7 @@
 		0A628B4D213DBD9E00478E06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A628B50213DBD9E00478E06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A628B52213DBD9E00478E06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKTextUtilities.swift; sourceTree = "<group>"; };
 		0AF64557213D985900B31A57 /* AccessibilityKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AccessibilityKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6455A213D985900B31A57 /* AccessibilityKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessibilityKit.h; sourceTree = "<group>"; };
 		0AF6455B213D985900B31A57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				0AF64571213D9FD800B31A57 /* AKTextView.swift */,
+				0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */,
 				0AF6455A213D985900B31A57 /* AccessibilityKit.h */,
 				0AF6455B213D985900B31A57 /* Info.plist */,
 			);
@@ -310,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF64572213D9FD800B31A57 /* AKTextView.swift in Sources */,
+				0AC9ABAD214DBE8B00C52125 /* AKTextUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
