@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		0AAE4EFD214717B700EB8418 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE4EFC214717B600EB8418 /* LaunchScreen.storyboard */; };
 		0AC9ABA3214AE16D00C52125 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABA2214AE16D00C52125 /* Test.swift */; };
-		0AC9ABA5214DB98500C52125 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */; };
+		0AC9ABA9214DBAFD00C52125 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */; };
+		0AC9ABAA214DBAFD00C52125 /* AccessibilityKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		24464BAD1BBA4128006D0582 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24464BAC1BBA4128006D0582 /* Images.xcassets */; };
 		24E4394A1BBA5B4B009EBDDA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E439491BBA5B4B009EBDDA /* QuartzCore.framework */; };
 		9C36DD3A1494491A00D3035F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C36DD391494491A00D3035F /* UIKit.framework */; };
@@ -22,6 +23,20 @@
 		9C36DD5714944F1600D3035F /* milky_way.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9C36DD5614944F1600D3035F /* milky_way.jpg */; };
 		B09F23FA199EA6C100A10972 /* SPUserResizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B09F23F9199EA6C100A10972 /* SPUserResizableView.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0AC9ABAB214DBAFD00C52125 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0AC9ABAA214DBAFD00C52125 /* AccessibilityKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0AAE4EF921438BBF00EB8418 /* SPUserResizableView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SPUserResizableView-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -52,7 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AC9ABA5214DB98500C52125 /* AccessibilityKit.framework in Frameworks */,
+				0AC9ABA9214DBAFD00C52125 /* AccessibilityKit.framework in Frameworks */,
 				24E4394A1BBA5B4B009EBDDA /* QuartzCore.framework in Frameworks */,
 				9C36DD3A1494491A00D3035F /* UIKit.framework in Frameworks */,
 				9C36DD3C1494491A00D3035F /* Foundation.framework in Frameworks */,
@@ -134,6 +149,7 @@
 				9C36DD311494491A00D3035F /* Sources */,
 				9C36DD321494491A00D3035F /* Frameworks */,
 				9C36DD331494491A00D3035F /* Resources */,
+				0AC9ABAB214DBAFD00C52125 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
