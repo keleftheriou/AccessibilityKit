@@ -1,6 +1,8 @@
 # AccessibilityKit ♿️
 
-**AccessibilityKit** is a (soon to be) collection of APIs to help you develop better apps for people with visual impairments, for the times when iOS doesn't have you covered. The first such API is `AKTextView`, with text-to-speech additions coming soon!
+**AccessibilityKit** is a collection of APIs to help you develop more visually accessible apps, for the times when iOS doesn't have you covered.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## AKTextView
 
@@ -29,6 +31,8 @@ let view = AKTextView()
 view.attributedText = .init(string: "Some text here", attributes: [.foregroundColor: UIColor.black])
 ```
 
-## That's it! 👏
+# Text-to-speech additions coming soon
+
+# That's it! 👏
 
 AccessibilityKit is used in the award-winning, low-vision keyboard [FlickType](https://www.flicktype.com).
