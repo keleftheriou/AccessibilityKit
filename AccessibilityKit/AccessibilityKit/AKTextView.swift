@@ -87,13 +87,11 @@ public class AKTextView: UITextView {
   
   public override init(frame: CGRect, textContainer: NSTextContainer?) {
     super.init(frame: frame, textContainer: textContainer)
-    
+    isScrollEnabled = false
     // Remove internal horizontal padding
     self.textContainer.lineFragmentPadding = 0
     // Remove all padding
     self.textContainerInset = .zero
-    
-    isScrollEnabled = false
   }
   
   required init?(coder aDecoder: NSCoder) {
