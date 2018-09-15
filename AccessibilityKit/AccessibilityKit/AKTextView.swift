@@ -56,19 +56,14 @@ public class AKLabel: UIView {
   @objc
   public var attributedText = NSAttributedString() {
     didSet {
+      precondition(attributedText.hasFontFullySpecified, "You must specify a font for all parts of the string.")
       defer { setNeedsDisplay() }
       longestWord = nil
       let components = attributedText.components.filter { $0.length > 0 }
       guard !components.isEmpty else { return }
       // Ensure we never break a word into multiple lines.
       // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
-
-      // NOTE: If we don't specify the same arbitrary font size here, two long words with very similar sizes might "flip" in terms of which one is longest as the font size changes, eg:
-      // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [.font: UIFont.systemFont(ofSize: 100)], context: nil).width }
-      // [40.13671875, 40.5029296875] // "dynamic" is always larger, regardless of specified font size, as expected
-      // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [:], context: nil).width }
-      // [45.357421875, 44.68359375] // "example" is larger when no font is specified. What font is even used here??
-      longestWord = components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
+      longestWord = components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
       // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
     }
   }
@@ -141,7 +136,6 @@ public class AKTextView: UITextView {
   
   public override var attributedText: NSAttributedString! {
     set {
-      // For some reason, if the attributed text does not have a font we may have line spacing / positioning issues
       precondition(newValue.hasFontFullySpecified, "You must specify a font for all parts of the string.")
       super.attributedText = newValue
       setNeedsLayout()
@@ -259,6 +253,12 @@ fileprivate extension NSAttributedString {
     return result
   }
   
+  // For some reason, if the attributed text does not have a font we may have line spacing / positioning issues.
+  // Additionally, without a specified font, the "longest word" calculation" can fail: two long words with very similar sizes might "flip" in terms of which one is longest as the font size changes, eg:
+  // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [.font: UIFont.systemFont(ofSize: 100)], context: nil).width }
+  // [40.13671875, 40.5029296875] // "dynamic" is always larger, regardless of specified font size, as expected
+  // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [:], context: nil).width }
+  // [45.357421875, 44.68359375] // "example" is larger when no font is specified. What font is even used here??
   var hasFontFullySpecified: Bool {
     var result = true
     self.enumerateAttribute(.font, in: NSRange(location: 0, length: length), options: []) { value, range, stop in
