@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TextUtilities {
+class AKTextUtilities {
   
   static func roundedFontSize(_ fontSize: CGFloat, accuracyThreshold: CGFloat) -> CGFloat {
     return round(fontSize / accuracyThreshold) * accuracyThreshold

@@ -38,7 +38,7 @@ public class AKLabel: UIView {
   private let fontSizeAccuracyThreshold: CGFloat = 1.0
   
   private func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
-    return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold)
+    return AKTextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold)
   }
   
   private var longestWord: NSAttributedString!
@@ -53,11 +53,11 @@ public class AKLabel: UIView {
     // Ensure we never break a word into multiple lines.
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     var maxFontSize = roundedFontSize(2 * min(rect.height, rect.width))
-    maxFontSize = TextUtilities.binarySearch1(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = AKTextUtilities.binarySearch1(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
     
     // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
     if attributedText.length > longestWord.length {
-      maxFontSize = TextUtilities.binarySearch1(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
+      maxFontSize = AKTextUtilities.binarySearch1(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions, accuracyThreshold: fontSizeAccuracyThreshold)
     }
     
     // Re-run to get the final boundingRect.
@@ -86,7 +86,7 @@ public class AKTextView: UITextView {
   
   private let minFontSize: CGFloat = 1
   private let fontSizeAccuracyThreshold: CGFloat = 1.0
-  func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
+  func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return AKTextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
   
   public override var attributedText: NSAttributedString! {
     set {
@@ -125,8 +125,8 @@ public class AKTextView: UITextView {
     let fitSize = UIEdgeInsetsInsetRect(bounds, textContainerInset).size
     var maxFontSize = roundedFontSize(2 * min(fitSize.height, fitSize.width))
 
-    maxFontSize = TextUtilities.binarySearch2(string: longestWord,    minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true,  accuracyThreshold: fontSizeAccuracyThreshold)
-    maxFontSize = TextUtilities.binarySearch2(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true,  accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, accuracyThreshold: fontSizeAccuracyThreshold)
 
     // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
     super.attributedText = attributedText.withFontSize(maxFontSize)
