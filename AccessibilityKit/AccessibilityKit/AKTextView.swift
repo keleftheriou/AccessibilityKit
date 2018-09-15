@@ -155,6 +155,8 @@ public class AKTextView: UITextView {
     
     // Remove internal horizontal padding
     self.textContainer.lineFragmentPadding = 0
+    // Remove all padding
+    self.textContainerInset = .zero
     
     isScrollEnabled = false
   }
