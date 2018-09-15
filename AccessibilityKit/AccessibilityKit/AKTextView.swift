@@ -48,6 +48,7 @@ fileprivate class TextUtilities {
     return _binarySearch2(string:string, minFontSize:minFontSize, maxFontSize:maxFontSize, fitSize:fitSize.floored, singleLine:singleLine, accuracyThreshold:accuracyThreshold)
   }
   
+  // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
 }
 
 @objc
@@ -69,13 +70,7 @@ public class AKLabel: UIView {
     didSet {
       precondition(attributedText.hasFontFullySpecified, "You must specify a font for all parts of the string.")
       defer { setNeedsDisplay() }
-      longestWord = nil
-      let components = attributedText.components.filter { $0.length > 0 }
-      guard !components.isEmpty else { return }
-      // Ensure we never break a word into multiple lines.
-      // Find the longest word in terms of drawing width, and start our font size search with a ceiling size that is guaranteed to render this word in a single line.
-      longestWord = components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
-      // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
+      longestWord = attributedText.longestWord
     }
   }
   
@@ -106,6 +101,7 @@ public class AKLabel: UIView {
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
     //assert(rect == bounds)
     
+    // Ensure we never break a word into multiple lines.
     // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
     var maxFontSize = roundedFontSize(2 * min(rect.height, rect.width))
     maxFontSize = TextUtilities.binarySearch1(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin), accuracyThreshold: fontSizeAccuracyThreshold)
@@ -141,7 +137,6 @@ public class AKTextView: UITextView {
   
   private let minFontSize: CGFloat = 1
   private let fontSizeAccuracyThreshold: CGFloat = 1.0
-  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
   func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
   
   public override var attributedText: NSAttributedString! {
@@ -173,13 +168,13 @@ public class AKTextView: UITextView {
     super.layoutSubviews()
     
     guard attributedText != nil, attributedText.length > 0 else { return }
-    let longestWord = attributedText.components.map { ($0, $0.withFontSize(50).boundingRect(with: .greatestFiniteSize, options: drawingOptions, context: nil).width) }.max { $0.1 < $1.1 }?.0
+    let longestWord = attributedText.longestWord
     
     // We don't simply use `textContainer.size` because it will have infinite Y size if scrolling is enabled
     let fitSize = UIEdgeInsetsInsetRect(bounds, textContainerInset).size
     var maxFontSize = roundedFontSize(2 * min(fitSize.height, fitSize.width))
 
-    maxFontSize = TextUtilities.binarySearch2(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true,  accuracyThreshold: fontSizeAccuracyThreshold)
+    maxFontSize = TextUtilities.binarySearch2(string: longestWord,    minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true,  accuracyThreshold: fontSizeAccuracyThreshold)
     maxFontSize = TextUtilities.binarySearch2(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, accuracyThreshold: fontSizeAccuracyThreshold)
 
     // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
@@ -243,7 +238,7 @@ fileprivate extension String {
 
 fileprivate extension NSAttributedString {
   
-  var components: [NSAttributedString] {
+  private var components: [NSAttributedString] {
     var result = [NSAttributedString]()
     var lastPosition = 0
     string.rangesOfCharacters(from: .whitespacesAndNewlines).forEach { skipRange in
@@ -253,6 +248,11 @@ fileprivate extension NSAttributedString {
     }
     result += [attributedSubstring(from: NSRange(location: lastPosition, length: length - lastPosition))]
     return result
+  }
+  
+  var longestWord: NSAttributedString {
+    precondition(hasFontFullySpecified)
+    return components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: [], context: nil).width) }.max { $0.1 < $1.1 }?.0 ?? .init()
   }
   
   func withFontSize(_ fontSize: CGFloat) -> NSAttributedString {
@@ -289,4 +289,3 @@ fileprivate extension NSAttributedString {
     return result
   }
 }
-
