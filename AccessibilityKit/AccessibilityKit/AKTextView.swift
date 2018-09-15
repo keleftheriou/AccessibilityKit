@@ -19,6 +19,27 @@ fileprivate class TextUtilities {
     }
   }
   
+  fileprivate static func binarySearch2(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, accuracyThreshold: CGFloat) -> CGFloat {
+    let avgSize = roundedFontSize((minFontSize + maxFontSize)/2, accuracyThreshold: accuracyThreshold)
+    if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
+    
+    let layoutManager = NSLayoutManager()
+    let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
+    textContainer.lineFragmentPadding = 0
+    let textStorage = NSTextStorage(attributedString: string.withFontSize(avgSize))
+    textStorage.addLayoutManager(layoutManager)
+    layoutManager.addTextContainer(textContainer)
+    
+    let glyphRange = layoutManager.glyphRange(for: textContainer)
+    let newSize = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
+    
+    if fitSize.contains(newSize) {
+      return binarySearch2(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, singleLine: singleLine, accuracyThreshold: accuracyThreshold)
+    } else {
+      return binarySearch2(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, singleLine: singleLine, accuracyThreshold: accuracyThreshold)
+    }
+  }
+  
 }
 
 @objc
