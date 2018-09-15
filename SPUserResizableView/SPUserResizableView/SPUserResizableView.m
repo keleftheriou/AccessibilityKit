@@ -7,6 +7,7 @@
 
 #import "SPUserResizableView.h"
 #import "SPUserResizableView-Swift.h"
+#import <AccessibilityKit/AccessibilityKit.h>
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 

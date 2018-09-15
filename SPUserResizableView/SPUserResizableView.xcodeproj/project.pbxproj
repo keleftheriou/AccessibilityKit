@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AAE4EFB21438BC000EB8418 /* AKTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE4EFA21438BC000EB8418 /* AKTextView.swift */; };
 		0AAE4EFD214717B700EB8418 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE4EFC214717B600EB8418 /* LaunchScreen.storyboard */; };
 		0AC9ABA3214AE16D00C52125 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABA2214AE16D00C52125 /* Test.swift */; };
+		0AC9ABA5214DB98500C52125 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */; };
 		24464BAD1BBA4128006D0582 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24464BAC1BBA4128006D0582 /* Images.xcassets */; };
 		24E4394A1BBA5B4B009EBDDA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E439491BBA5B4B009EBDDA /* QuartzCore.framework */; };
 		9C36DD3A1494491A00D3035F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C36DD391494491A00D3035F /* UIKit.framework */; };
@@ -25,9 +25,9 @@
 
 /* Begin PBXFileReference section */
 		0AAE4EF921438BBF00EB8418 /* SPUserResizableView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SPUserResizableView-Bridging-Header.h"; sourceTree = "<group>"; };
-		0AAE4EFA21438BC000EB8418 /* AKTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AKTextView.swift; path = ../AccessibilityKit/AccessibilityKit/AccessibilityKit/AKTextView.swift; sourceTree = "<group>"; };
 		0AAE4EFC214717B600EB8418 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AC9ABA2214AE16D00C52125 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AccessibilityKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24464BAC1BBA4128006D0582 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		24E439491BBA5B4B009EBDDA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9C36DD351494491A00D3035F /* SPUserResizableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SPUserResizableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC9ABA5214DB98500C52125 /* AccessibilityKit.framework in Frameworks */,
 				24E4394A1BBA5B4B009EBDDA /* QuartzCore.framework in Frameworks */,
 				9C36DD3A1494491A00D3035F /* UIKit.framework in Frameworks */,
 				9C36DD3C1494491A00D3035F /* Foundation.framework in Frameworks */,
@@ -65,7 +66,6 @@
 		9C36DD2A1494491A00D3035F = {
 			isa = PBXGroup;
 			children = (
-				0AAE4EFA21438BC000EB8418 /* AKTextView.swift */,
 				9C36DD3F1494491A00D3035F /* SPUserResizableView */,
 				9C36DD381494491A00D3035F /* Frameworks */,
 				9C36DD361494491A00D3035F /* Products */,
@@ -86,6 +86,7 @@
 		9C36DD381494491A00D3035F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */,
 				24E439491BBA5B4B009EBDDA /* QuartzCore.framework */,
 				9C36DD391494491A00D3035F /* UIKit.framework */,
 				9C36DD3B1494491A00D3035F /* Foundation.framework */,
@@ -194,7 +195,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AAE4EFB21438BC000EB8418 /* AKTextView.swift in Sources */,
 				9C36DD461494491B00D3035F /* main.m in Sources */,
 				9C36DD4A1494491B00D3035F /* AppDelegate.m in Sources */,
 				B09F23FA199EA6C100A10972 /* SPUserResizableView.m in Sources */,
