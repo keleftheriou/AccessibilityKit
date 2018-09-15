@@ -164,21 +164,6 @@ public class AKTextView: UITextView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // TODO: To draw strings repeatedly, it is more efficient to use NSLayoutManager, as described in Drawing Strings in Text Layout Programming Guide.
-//  func testFunc(rect: CGRect) {
-//    let layoutManager = NSLayoutManager()
-//    let textContainer = NSTextContainer(size: rect.size)
-//    let textStorage = NSTextStorage(attributedString: attributedText)
-//    textStorage.addLayoutManager(layoutManager)
-//    layoutManager.addTextContainer(textContainer)
-//    let glyphRange = layoutManager.glyphRange(for: textContainer)
-//    // draw or just get boundingRect
-//    layoutManager.drawGlyphs(forGlyphRange: glyphRange, at: rect.origin)
-//    layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
-//      let rect1 = attributedText.boundingRect(with: textContainer.size, options: [.usesLineFragmentOrigin], context: nil)
-//      let rect2 = layoutManager.boundingRect(forGlyphRange: layoutManager.glyphRange(for: textContainer), in: textContainer)
-//      if rect1 != rect2 { print(maxFontSize, bounds.size, rect1.size, rect2.size) }
-//  }
   
   public override func layoutSubviews() {
     super.layoutSubviews()
