@@ -123,7 +123,7 @@ public class AKTextView: UITextView {
     
     // Both of these return the same height, but different width. Not sure why.
     //let textRect = attributedText.boundingRect(with: fitSize, options: drawingOptions, context: nil)
-    let textRect = layoutManager.boundingRect(forGlyphRange: layoutManager.glyphRange(for: textContainer), in: textContainer)
+    let textRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
     let padding = max(0, fitSize.height - textRect.height)
     let yShift = verticalAlignment == .center ? padding/2 : padding
     // The first view is a _UITextContainerView
