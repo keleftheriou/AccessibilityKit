@@ -141,7 +141,6 @@ public class AKTextView: UITextView {
   
   private let minFontSize: CGFloat = 1
   private let fontSizeAccuracyThreshold: CGFloat = 1.0
-  // NOTE: .usesDeviceMetrics might result in chopped text. Seems that `UITextView` does *not* include that option when drawing.
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
   func roundedFontSize(_ fontSize: CGFloat) -> CGFloat { return TextUtilities.roundedFontSize(fontSize, accuracyThreshold: fontSizeAccuracyThreshold) }
   
@@ -183,6 +182,7 @@ public class AKTextView: UITextView {
     maxFontSize = TextUtilities.binarySearch2(string: longestWord!,   minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true,  accuracyThreshold: fontSizeAccuracyThreshold)
     maxFontSize = TextUtilities.binarySearch2(string: attributedText, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, accuracyThreshold: fontSizeAccuracyThreshold)
 
+    // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
     super.attributedText = attributedText.withFontSize(maxFontSize)
     
     // Check that all glyphs fit inside our textContainer
