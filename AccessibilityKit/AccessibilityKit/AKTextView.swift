@@ -98,7 +98,6 @@ public class AKTextView: UITextView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  
   public override func layoutSubviews() {
     super.layoutSubviews()
     
@@ -110,7 +109,7 @@ public class AKTextView: UITextView {
     var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(fitSize.height, fitSize.width))
     maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true)
     maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false)
-
+    
     // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
     super.attributedText = attributedText.withFontSize(maxFontSize)
     
