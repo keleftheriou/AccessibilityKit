@@ -47,6 +47,7 @@ class AKTextUtilities {
     if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
     let newSize = sizingFunction(string.withFontSize(avgSize))
     let fits = fitSize.contains(newSize)
+    if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(avgSize) newSize \(newSize), fits: \(fits)") }
     if fits {
       return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, sizingFunction: sizingFunction)
     } else {
@@ -54,14 +55,27 @@ class AKTextUtilities {
     }
   }
   
+  private static let debugLogging = false
+  private static var totalTime = 0.0
+  private static var totalSearches = 0
+  private static func postInvocationHandler(_ startTime: TimeInterval) {
+    let dt = CFAbsoluteTimeGetCurrent() - startTime
+    totalTime += dt
+    totalSearches += 1
+    if debugLogging { print("Average font search time: \(totalTime / Double(totalSearches))") }
+  }
   
   // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
   static func binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
+    let startTime = CFAbsoluteTimeGetCurrent()
+    defer { postInvocationHandler(startTime) }
     return _binarySearch1(string: string, maxFontSize: maxFontSize, fitSize:fitSize.floored, options: options)
   }
   
   // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
   static func binarySearch2(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool) -> CGFloat {
+    let startTime = CFAbsoluteTimeGetCurrent()
+    defer { postInvocationHandler(startTime) }
     return _binarySearch2(string:string, maxFontSize:maxFontSize, fitSize:fitSize.floored, singleLine:singleLine)
   }
   
