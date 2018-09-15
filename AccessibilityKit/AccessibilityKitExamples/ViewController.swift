@@ -22,9 +22,11 @@ class MaxFontTextViewCell: UITableViewCell {
   }
   
   override func layoutSubviews() {
-    gradient.frame = contentView.bounds
+    super.layoutSubviews()
+    let safeBounds = contentView.safeAreaLayoutGuide.layoutFrame
+    gradient.frame = safeBounds
     // `AKTextView` does not have any default padding, so add some here
-    maxFontTextView.frame = UIEdgeInsetsInsetRect(contentView.bounds, UIEdgeInsetsMake(10, 10, 10, 10))
+    maxFontTextView.frame = UIEdgeInsetsInsetRect(safeBounds, UIEdgeInsetsMake(10, 10, 10, 10))
   }
   
   required init?(coder aDecoder: NSCoder) {
