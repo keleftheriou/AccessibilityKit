@@ -36,6 +36,8 @@ class AKTextUtilities {
       textStorage.addLayoutManager(layoutManager)
       layoutManager.addTextContainer(textContainer)
       let glyphRange = layoutManager.glyphRange(for: textContainer)
+      // Check that all glyphs fit inside our textContainer
+      assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
       return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
     }
   }
