@@ -16,13 +16,14 @@ class MaxFontTextViewCell: UITableViewCell {
   
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    maxFontTextView.backgroundColor = .clear
     contentView.addSubview(maxFontTextView)
     contentView.layer.insertSublayer(gradient, at: 0)
   }
   
   override func layoutSubviews() {
     gradient.frame = contentView.bounds
-    // `MaxFontTextView` does not have any default padding, so add some here
+    // `AKTextView` does not have any default padding, so add some here
     maxFontTextView.frame = UIEdgeInsetsInsetRect(contentView.bounds, UIEdgeInsetsMake(10, 10, 10, 10))
   }
   
@@ -103,7 +104,12 @@ extension ViewController {
     cell.maxFontTextView.verticalAlignment = .center
     
     // Set the attributed string that will fit the entire bounds of this cell
-    cell.maxFontTextView.attributedText = .init(string: "\(dataSource[indexPath.row % dataSource.count])", attributes: [.foregroundColor: textColors[indexPath.row % textColors.count], .paragraphStyle: paragraphStyle])
+    cell.maxFontTextView.attributedText = .init(
+      string: "\(dataSource[indexPath.row % dataSource.count])", attributes: [
+        .font: UIFont.systemFont(ofSize: 12), // You *must* specify a font - the size is ignored.
+        .foregroundColor: textColors[indexPath.row % textColors.count],
+        .paragraphStyle: paragraphStyle,
+      ])
     return cell
   }
   
