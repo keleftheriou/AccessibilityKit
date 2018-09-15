@@ -173,6 +173,11 @@ public class AKTextView: UITextView {
 
 
     super.attributedText = attributedText.withFontSize(maxFontSize)
+    
+    // Check that all glyphs fit inside our textContainer
+    let glyphRange = layoutManager.glyphRange(for: textContainer)
+    assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
+    
     // We are all set, unless we want to vertically align center or bottom
     guard verticalAlignment != .top else { return }
     
