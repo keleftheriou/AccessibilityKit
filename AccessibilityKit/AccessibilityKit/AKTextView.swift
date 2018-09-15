@@ -7,36 +7,33 @@ fileprivate class TextUtilities {
   }
   
   fileprivate static func binarySearch1(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions, accuracyThreshold: CGFloat) -> CGFloat {
-    let avgSize = roundedFontSize((minFontSize + maxFontSize)/2, accuracyThreshold: accuracyThreshold)
-    if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
-    let singleLine = !options.contains(.usesLineFragmentOrigin)
-    let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
-    let newSize = string.withFontSize(avgSize).boundingRect(with: canvasSize, options: options, context: nil).size
-    if fitSize.contains(newSize) {
-      return binarySearch1(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, options: options, accuracyThreshold: accuracyThreshold)
-    } else {
-      return binarySearch1(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, options: options, accuracyThreshold: accuracyThreshold)
+    return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold) { string in
+      let singleLine = !options.contains(.usesLineFragmentOrigin)
+      let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
+      return string.boundingRect(with: canvasSize, options: options, context: nil).size
     }
   }
   
   fileprivate static func binarySearch2(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, accuracyThreshold: CGFloat) -> CGFloat {
+    return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold) { string in
+      let layoutManager = NSLayoutManager()
+      let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
+      textContainer.lineFragmentPadding = 0
+      let textStorage = NSTextStorage(attributedString: string)
+      textStorage.addLayoutManager(layoutManager)
+      layoutManager.addTextContainer(textContainer)
+      let glyphRange = layoutManager.glyphRange(for: textContainer)
+      return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
+    }
+  }
+  
+  fileprivate static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, accuracyThreshold: CGFloat, sizingFunction: (NSAttributedString) -> CGSize) -> CGFloat {
     let avgSize = roundedFontSize((minFontSize + maxFontSize)/2, accuracyThreshold: accuracyThreshold)
     if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
-    
-    let layoutManager = NSLayoutManager()
-    let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
-    textContainer.lineFragmentPadding = 0
-    let textStorage = NSTextStorage(attributedString: string.withFontSize(avgSize))
-    textStorage.addLayoutManager(layoutManager)
-    layoutManager.addTextContainer(textContainer)
-    
-    let glyphRange = layoutManager.glyphRange(for: textContainer)
-    let newSize = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
-    
-    if fitSize.contains(newSize) {
-      return binarySearch2(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, singleLine: singleLine, accuracyThreshold: accuracyThreshold)
+    if fitSize.contains(sizingFunction(string.withFontSize(avgSize))) {
+      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold, sizingFunction: sizingFunction)
     } else {
-      return binarySearch2(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, singleLine: singleLine, accuracyThreshold: accuracyThreshold)
+      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold, sizingFunction: sizingFunction)
     }
   }
   
