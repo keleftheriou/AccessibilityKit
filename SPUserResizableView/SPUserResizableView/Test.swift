@@ -3,7 +3,6 @@
 //  SPUserResizableView
 //
 //  Created by Kosta Eleftheriou on 9/13/18.
-//  Copyright © 2018 Brown University. All rights reserved.
 //
 
 import Foundation
@@ -13,7 +12,6 @@ public class Test: NSObject {
 
   @objc
   public static func testString() -> NSAttributedString {
-    
     let s = NSMutableAttributedString()
     s.append(NSAttributedString(string: "This is a ", attributes: [.foregroundColor: UIColor.white]))
     s.append(NSAttributedString(string: "COOL", attributes: [.foregroundColor: UIColor.cyan]))
