@@ -6,7 +6,7 @@ fileprivate class TextUtilities {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
-  fileprivate static func binarySearch1(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions, accuracyThreshold: CGFloat) -> CGFloat {
+  private static func _binarySearch1(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions, accuracyThreshold: CGFloat) -> CGFloat {
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold) { string in
       let singleLine = !options.contains(.usesLineFragmentOrigin)
       let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
@@ -14,7 +14,7 @@ fileprivate class TextUtilities {
     }
   }
   
-  fileprivate static func binarySearch2(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, accuracyThreshold: CGFloat) -> CGFloat {
+  private static func _binarySearch2(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, accuracyThreshold: CGFloat) -> CGFloat {
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold) { string in
       let layoutManager = NSLayoutManager()
       let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
@@ -27,7 +27,7 @@ fileprivate class TextUtilities {
     }
   }
   
-  fileprivate static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, accuracyThreshold: CGFloat, sizingFunction: (NSAttributedString) -> CGSize) -> CGFloat {
+  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, accuracyThreshold: CGFloat, sizingFunction: (NSAttributedString) -> CGSize) -> CGFloat {
     let avgSize = roundedFontSize((minFontSize + maxFontSize)/2, accuracyThreshold: accuracyThreshold)
     if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
     if fitSize.contains(sizingFunction(string.withFontSize(avgSize))) {
@@ -35,6 +35,17 @@ fileprivate class TextUtilities {
     } else {
       return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, accuracyThreshold: accuracyThreshold, sizingFunction: sizingFunction)
     }
+  }
+  
+  
+  // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
+  fileprivate static func binarySearch1(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions, accuracyThreshold: CGFloat) -> CGFloat {
+    return _binarySearch1(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize:fitSize.floored, options: options, accuracyThreshold: accuracyThreshold)
+  }
+  
+  // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
+  fileprivate static func binarySearch2(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, accuracyThreshold: CGFloat) -> CGFloat {
+    return _binarySearch2(string:string, minFontSize:minFontSize, maxFontSize:maxFontSize, fitSize:fitSize.floored, singleLine:singleLine, accuracyThreshold:accuracyThreshold)
   }
   
 }
@@ -199,6 +210,9 @@ fileprivate extension CGSize {
   
   func contains(_ size: CGSize) -> Bool {
     return width >= size.width && height >= size.height
+  }
+  var floored: CGSize {
+    return CGSize(width: floor(width), height: floor(height))
   }
 }
 
