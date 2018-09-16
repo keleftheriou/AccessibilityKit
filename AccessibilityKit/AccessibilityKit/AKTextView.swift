@@ -7,7 +7,7 @@ public enum VerticalAlignment : Int {
   case bottom
 }
 
-public class AKLabel: UIView {
+public class AKView: UIView {
   
   @objc
   public var verticalAlignment: VerticalAlignment = .center {
@@ -66,6 +66,57 @@ public class AKLabel: UIView {
   }
   
   required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+}
+
+
+public class AKLabel: UILabel {
+  @objc
+  public var verticalAlignment: VerticalAlignment = .center
+  
+  public override var attributedText: NSAttributedString! {
+    set {
+      precondition(newValue.hasFontFullySpecified, "You must specify a font for all parts of the string.")
+      super.attributedText = newValue
+      setNeedsLayout()
+    }
+    get {
+      return super.attributedText
+    }
+  }
+  
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    numberOfLines = 0
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  public override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    guard attributedText != nil, attributedText.length > 0 else { return }
+    let longestWord = attributedText.longestWord
+    
+    let fitSize = bounds.size    
+    var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(fitSize.height, fitSize.width))
+    maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true)
+    maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false)
+    
+    super.attributedText = attributedText.withFontSize(maxFontSize)
+  }
+  
+  public override func draw(_ rect: CGRect) {
+    if verticalAlignment != .center {
+      let textRect = attributedText.boundingRect(with: bounds.size, options: .usesLineFragmentOrigin, context: nil)
+      let padding = max(0, rect.height - textRect.height)
+      let yShift = verticalAlignment == .top ? -padding/2 : padding/2
+      UIGraphicsGetCurrentContext()!.translateBy(x: 0, y: yShift)
+    }
+    super.draw(rect)
+  }
+  
 }
 
 
