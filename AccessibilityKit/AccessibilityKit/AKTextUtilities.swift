@@ -8,6 +8,12 @@
 
 import Foundation
 
+#if os(iOS)
+typealias AKStringDrawingOptions = NSStringDrawingOptions
+#else
+typealias AKStringDrawingOptions = NSString.DrawingOptions
+#endif
+
 class AKTextUtilities {
   
   private static let minFontSize: CGFloat = 1
@@ -19,7 +25,7 @@ class AKTextUtilities {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
-  private static func _binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
+  private static func _binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: AKStringDrawingOptions) -> CGFloat {
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize) { string in
       let singleLine = !options.contains(.usesLineFragmentOrigin)
       let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
@@ -66,7 +72,7 @@ class AKTextUtilities {
   }
   
   // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
-  static func binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: NSStringDrawingOptions) -> CGFloat {
+  static func binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: AKStringDrawingOptions) -> CGFloat {
     let startTime = CFAbsoluteTimeGetCurrent()
     defer { postInvocationHandler(startTime) }
     return _binarySearch1(string: string, maxFontSize: maxFontSize, fitSize:fitSize.floored, options: options)
@@ -143,15 +149,20 @@ extension NSAttributedString {
     let result = NSMutableAttributedString(attributedString: self)
     result.enumerateAttribute(.font, in: NSRange(location: 0, length: result.length), options: []) { value, range, stop in
       guard let value = value else { preconditionFailure("String must have a font set in all locations.") }
+      #if os(iOS)
       let oldFont: UIFont = value as! UIFont
       let newFont: UIFont = oldFont.withSize(fontSize)
+      #else
+      let oldFont: NSFont = value as! NSFont
+      let newFont: NSFont = NSFont(descriptor: oldFont.fontDescriptor, size: fontSize)!
+      #endif
       result.removeAttribute(.font, range: range)
       result.addAttribute(.font, value: newFont, range: range)
     }
     
     // Fix for emoji
     // https://stackoverflow.com/questions/40914624/what-is-the-nsoriginalfont-attribute-in-nsattributedstring
-    result.removeAttribute(NSAttributedStringKey(rawValue: "NSOriginalFont"), range: NSMakeRange(0, result.length))
+    result.removeAttribute(NSAttributedString.Key(rawValue: "NSOriginalFont"), range: NSMakeRange(0, result.length))
     return result
   }
   
