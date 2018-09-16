@@ -1,5 +1,11 @@
 language: objective-c
 xcode_workspace: AccessibilityKit.xcworkspace
-xcode_scheme: AccessibilityKit
-xcode_destination: platform=iOS Simulator,OS=11.4,name=iPhone X
 osx_image: xcode10
+
+matrix:
+  include:
+    - xcode_scheme: AccessibilityKit
+      xcode_destination: platform=iOS Simulator,OS=11.4,name=iPhone X
+
+    - xcode_scheme: AccessibilityKit-macOS
+      xcode_destination: platform=macOS
