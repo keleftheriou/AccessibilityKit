@@ -11,7 +11,7 @@ import AccessibilityKit
 
 class MaxFontTextViewCell: UITableViewCell {
   
-  let maxFontTextView = AKTextView()
+  let maxFontTextView = AKLabel()
   let gradient = CAGradientLayer()
   
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
