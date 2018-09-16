@@ -1,8 +1,6 @@
 # AccessibilityKit ♿️
 
-[![Build Status](https://travis-ci.com/FlickType/AccessibilityKit.svg?branch=master)](https://travis-ci.com/FlickType/AccessibilityKit) [![License: MIT](https://img.shields.io/github/license/FlickType/AccessibilityKit.svg)](https://opensource.org/licenses/MIT) 
-
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![Tag](https://img.shields.io/github/tag/FlickType/AccessibilityKit.svg) 
+[![Build Status](https://travis-ci.com/FlickType/AccessibilityKit.svg?branch=master)](https://travis-ci.com/FlickType/AccessibilityKit) (https://github.com/Carthage/Carthage) ![Tag](https://img.shields.io/github/tag/FlickType/AccessibilityKit.svg?label=Carthage) [![License: MIT](https://img.shields.io/github/license/FlickType/AccessibilityKit.svg)](https://opensource.org/licenses/MIT) 
 
 **AccessibilityKit** is a collection of APIs to help you develop more visually accessible apps, for the times when iOS doesn't have you covered.
 
