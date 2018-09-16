@@ -17,6 +17,9 @@
 		0A628B51213DBD9E00478E06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A628B4F213DBD9E00478E06 /* LaunchScreen.storyboard */; };
 		0A628B5F213DC1DE00478E06 /* AccessibilityKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit_iOS.framework */; };
 		0A628B60213DC1DE00478E06 /* AccessibilityKit_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0AA679B7214EE90D00323543 /* AccessibilityKit_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */; };
+		0AA679B8214EE90D00323543 /* AccessibilityKit_macOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0AA679BA214EED9400323543 /* AKTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64571213D9FD800B31A57 /* AKTextView.swift */; };
 		0AC9ABAD214DBE8B00C52125 /* AKTextUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */; };
 		0AC9ABC4214ECFB900C52125 /* AccessibilityKit_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */; };
 		0AC9ABC9214ECFB900C52125 /* AccessibilityKit_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABC8214ECFB900C52125 /* AccessibilityKit_macOSTests.swift */; };
@@ -35,6 +38,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0AF64556213D985900B31A57;
 			remoteInfo = AccessibilityKit;
+		};
+		0AA679B4214EE83C00323543 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AF6454E213D985900B31A57 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0AC9ABBA214ECFB900C52125;
+			remoteInfo = "AccessibilityKit-macOS";
 		};
 		0AC9ABC5214ECFB900C52125 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -60,6 +70,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0A628B60213DC1DE00478E06 /* AccessibilityKit_iOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AA679B9214EE90D00323543 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0AA679B8214EE90D00323543 /* AccessibilityKit_macOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AA679B7214EE90D00323543 /* AccessibilityKit_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,10 +295,12 @@
 				0A517321214EDC6C00E62C8E /* Sources */,
 				0A517322214EDC6C00E62C8E /* Frameworks */,
 				0A517323214EDC6C00E62C8E /* Resources */,
+				0AA679B9214EE90D00323543 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0AA679B5214EE83C00323543 /* PBXTargetDependency */,
 			);
 			name = "AccessibilityKit-macOS-Examples";
 			productName = "AccessibilityKit-macOS-Examples";
@@ -501,6 +525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AC9ABD2214ECFCD00C52125 /* AKTextUtilities.swift in Sources */,
+				0AA679BA214EED9400323543 /* AKTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +561,11 @@
 			isa = PBXTargetDependency;
 			target = 0AF64556213D985900B31A57 /* AccessibilityKit-iOS */;
 			targetProxy = 0A628B56213DBDA500478E06 /* PBXContainerItemProxy */;
+		};
+		0AA679B5214EE83C00323543 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0AC9ABBA214ECFB900C52125 /* AccessibilityKit-macOS */;
+			targetProxy = 0AA679B4214EE83C00323543 /* PBXContainerItemProxy */;
 		};
 		0AC9ABC6214ECFB900C52125 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -580,6 +610,7 @@
 		0A517331214EDC6D00E62C8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "AccessibilityKit-macOS-Examples/AccessibilityKit_macOS_Examples.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -604,6 +635,7 @@
 		0A517332214EDC6D00E62C8E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "AccessibilityKit-macOS-Examples/AccessibilityKit_macOS_Examples.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";

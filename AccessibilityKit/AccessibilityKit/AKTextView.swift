@@ -1,4 +1,6 @@
+#if os(iOS)
 import UIKit
+#endif
 
 @objc
 public enum VerticalAlignment : Int {
@@ -6,6 +8,32 @@ public enum VerticalAlignment : Int {
   case center
   case bottom
 }
+
+#if os(macOS)
+public class AKTextView: NSTextView {
+  
+  private func resizeFont() {
+    let fitSize = bounds.size
+    let attributedText = NSAttributedString(string: string, attributes: [.font: NSFont.systemFont(ofSize: 12)])
+    let longestWord = attributedText.longestWord
+    var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(fitSize.height, fitSize.width))
+    maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true)
+    maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false)
+    font = NSFont.systemFont(ofSize: maxFontSize)
+  }
+  
+  open override func didChangeText() {
+    super.didChangeText()
+    resizeFont()
+  }
+  
+  public override func layout() {
+    super.layout()
+    resizeFont()
+  }
+}
+
+#else
 
 public class AKView: UIView {
   
@@ -182,3 +210,5 @@ public class AKTextView: UITextView {
   }
   
 }
+
+#endif // os(iOS)

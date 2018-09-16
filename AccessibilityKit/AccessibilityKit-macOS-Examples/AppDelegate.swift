@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import AccessibilityKit_macOS
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -28,14 +29,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 class ViewController: NSViewController {
   
+  let textView: NSView = {
+    let view = AKTextView()
+    // TODO: all this should be inside our own initializer
+    view.isVerticallyResizable = false
+    view.isHorizontallyResizable = false
+    // Remove internal horizontal padding
+    view.textContainer!.lineFragmentPadding = 0
+    // Remove all padding
+    view.textContainerInset = .zero
+    return view
+  }()
+  
   override func loadView() {
-    let view = NSView()
-    view.autoresizingMask = [.width, .height]
-    view.wantsLayer = true
-    view.layer?.backgroundColor = NSColor.green.cgColor
-    view.layer?.borderWidth = 2
-    view.layer?.borderColor = NSColor.blue.cgColor
-    self.view = view
+    textView.autoresizingMask = [.width, .height]
+    self.view = textView
   }
   
   override func viewWillLayout() {
