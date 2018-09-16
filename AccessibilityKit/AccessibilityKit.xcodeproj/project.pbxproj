@@ -15,6 +15,10 @@
 		0A628B5F213DC1DE00478E06 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; };
 		0A628B60213DC1DE00478E06 /* AccessibilityKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AC9ABAD214DBE8B00C52125 /* AKTextUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */; };
+		0AC9ABC4214ECFB900C52125 /* AccessibilityKit_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */; };
+		0AC9ABC9214ECFB900C52125 /* AccessibilityKit_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABC8214ECFB900C52125 /* AccessibilityKit_macOSTests.swift */; };
+		0AC9ABCB214ECFB900C52125 /* AccessibilityKit_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AC9ABBD214ECFB900C52125 /* AccessibilityKit_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0AC9ABD2214ECFCD00C52125 /* AKTextUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */; };
 		0AF64561213D985900B31A57 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF64557213D985900B31A57 /* AccessibilityKit.framework */; };
 		0AF64566213D985900B31A57 /* AccessibilityKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF64565213D985900B31A57 /* AccessibilityKitTests.swift */; };
 		0AF64568213D985900B31A57 /* AccessibilityKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF6455A213D985900B31A57 /* AccessibilityKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,6 +32,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0AF64556213D985900B31A57;
 			remoteInfo = AccessibilityKit;
+		};
+		0AC9ABC5214ECFB900C52125 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AF6454E213D985900B31A57 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0AC9ABBA214ECFB900C52125;
+			remoteInfo = "AccessibilityKit-macOS";
 		};
 		0AF64562213D985900B31A57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -61,6 +72,12 @@
 		0A628B50213DBD9E00478E06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A628B52213DBD9E00478E06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AC9ABAC214DBE8B00C52125 /* AKTextUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKTextUtilities.swift; sourceTree = "<group>"; };
+		0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AccessibilityKit_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AC9ABBD214ECFB900C52125 /* AccessibilityKit_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessibilityKit_macOS.h; sourceTree = "<group>"; };
+		0AC9ABBE214ECFB900C52125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AC9ABC3214ECFB900C52125 /* AccessibilityKit-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AccessibilityKit-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AC9ABC8214ECFB900C52125 /* AccessibilityKit_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityKit_macOSTests.swift; sourceTree = "<group>"; };
+		0AC9ABCA214ECFB900C52125 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AF64557213D985900B31A57 /* AccessibilityKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AccessibilityKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6455A213D985900B31A57 /* AccessibilityKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessibilityKit.h; sourceTree = "<group>"; };
 		0AF6455B213D985900B31A57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +93,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A628B5F213DC1DE00478E06 /* AccessibilityKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AC9ABB8214ECFB900C52125 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AC9ABC0214ECFB900C52125 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AC9ABC4214ECFB900C52125 /* AccessibilityKit_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,12 +149,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0AC9ABBC214ECFB900C52125 /* AccessibilityKit-macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0AC9ABBD214ECFB900C52125 /* AccessibilityKit_macOS.h */,
+				0AC9ABBE214ECFB900C52125 /* Info.plist */,
+			);
+			path = "AccessibilityKit-macOS";
+			sourceTree = "<group>";
+		};
+		0AC9ABC7214ECFB900C52125 /* AccessibilityKit-macOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				0AC9ABC8214ECFB900C52125 /* AccessibilityKit_macOSTests.swift */,
+				0AC9ABCA214ECFB900C52125 /* Info.plist */,
+			);
+			path = "AccessibilityKit-macOSTests";
+			sourceTree = "<group>";
+		};
 		0AF6454D213D985900B31A57 = {
 			isa = PBXGroup;
 			children = (
 				0AF64559213D985900B31A57 /* AccessibilityKit */,
 				0AF64564213D985900B31A57 /* AccessibilityKitTests */,
 				0A628B45213DBD9E00478E06 /* AccessibilityKitExamples */,
+				0AC9ABBC214ECFB900C52125 /* AccessibilityKit-macOS */,
+				0AC9ABC7214ECFB900C52125 /* AccessibilityKit-macOSTests */,
 				0AF64558213D985900B31A57 /* Products */,
 				0A628B5B213DBF1100478E06 /* Frameworks */,
 			);
@@ -136,6 +188,8 @@
 				0AF64557213D985900B31A57 /* AccessibilityKit.framework */,
 				0AF64560213D985900B31A57 /* AccessibilityKitTests.xctest */,
 				0A628B44213DBD9E00478E06 /* AccessibilityKitExamples.app */,
+				0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */,
+				0AC9ABC3214ECFB900C52125 /* AccessibilityKit-macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,6 +217,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		0AC9ABB6214ECFB900C52125 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AC9ABCB214ECFB900C52125 /* AccessibilityKit_macOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AF64554213D985900B31A57 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -192,6 +254,42 @@
 			productName = AccessibilityKitExamples;
 			productReference = 0A628B44213DBD9E00478E06 /* AccessibilityKitExamples.app */;
 			productType = "com.apple.product-type.application";
+		};
+		0AC9ABBA214ECFB900C52125 /* AccessibilityKit-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0AC9ABD0214ECFB900C52125 /* Build configuration list for PBXNativeTarget "AccessibilityKit-macOS" */;
+			buildPhases = (
+				0AC9ABB6214ECFB900C52125 /* Headers */,
+				0AC9ABB7214ECFB900C52125 /* Sources */,
+				0AC9ABB8214ECFB900C52125 /* Frameworks */,
+				0AC9ABB9214ECFB900C52125 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AccessibilityKit-macOS";
+			productName = "AccessibilityKit-macOS";
+			productReference = 0AC9ABBB214ECFB900C52125 /* AccessibilityKit_macOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0AC9ABC2214ECFB900C52125 /* AccessibilityKit-macOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0AC9ABD1214ECFB900C52125 /* Build configuration list for PBXNativeTarget "AccessibilityKit-macOSTests" */;
+			buildPhases = (
+				0AC9ABBF214ECFB900C52125 /* Sources */,
+				0AC9ABC0214ECFB900C52125 /* Frameworks */,
+				0AC9ABC1214ECFB900C52125 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0AC9ABC6214ECFB900C52125 /* PBXTargetDependency */,
+			);
+			name = "AccessibilityKit-macOSTests";
+			productName = "AccessibilityKit-macOSTests";
+			productReference = 0AC9ABC3214ECFB900C52125 /* AccessibilityKit-macOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		0AF64556213D985900B31A57 /* AccessibilityKit */ = {
 			isa = PBXNativeTarget;
@@ -235,12 +333,18 @@
 		0AF6454E213D985900B31A57 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Kpaw;
 				TargetAttributes = {
 					0A628B43213DBD9E00478E06 = {
 						CreatedOnToolsVersion = 9.4.1;
+					};
+					0AC9ABBA214ECFB900C52125 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					0AC9ABC2214ECFB900C52125 = {
+						CreatedOnToolsVersion = 10.0;
 					};
 					0AF64556213D985900B31A57 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -267,6 +371,8 @@
 				0AF64556213D985900B31A57 /* AccessibilityKit */,
 				0AF6455F213D985900B31A57 /* AccessibilityKitTests */,
 				0A628B43213DBD9E00478E06 /* AccessibilityKitExamples */,
+				0AC9ABBA214ECFB900C52125 /* AccessibilityKit-macOS */,
+				0AC9ABC2214ECFB900C52125 /* AccessibilityKit-macOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -279,6 +385,20 @@
 				0A628B51213DBD9E00478E06 /* LaunchScreen.storyboard in Resources */,
 				0A628B4E213DBD9E00478E06 /* Assets.xcassets in Resources */,
 				0A628B4C213DBD9E00478E06 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AC9ABB9214ECFB900C52125 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AC9ABC1214ECFB900C52125 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +428,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0AC9ABB7214ECFB900C52125 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AC9ABD2214ECFCD00C52125 /* AKTextUtilities.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AC9ABBF214ECFB900C52125 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AC9ABC9214ECFB900C52125 /* AccessibilityKit_macOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0AF64552213D985900B31A57 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -332,6 +468,11 @@
 			isa = PBXTargetDependency;
 			target = 0AF64556213D985900B31A57 /* AccessibilityKit */;
 			targetProxy = 0A628B56213DBDA500478E06 /* PBXContainerItemProxy */;
+		};
+		0AC9ABC6214ECFB900C52125 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0AC9ABBA214ECFB900C52125 /* AccessibilityKit-macOS */;
+			targetProxy = 0AC9ABC5214ECFB900C52125 /* PBXContainerItemProxy */;
 		};
 		0AF64563213D985900B31A57 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -397,6 +538,112 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0AC9ABCC214ECFB900C52125 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4MR8AR9TLA;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "AccessibilityKit-macOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kpaw.AccessibilityKit-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		0AC9ABCD214ECFB900C52125 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4MR8AR9TLA;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "AccessibilityKit-macOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kpaw.AccessibilityKit-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		0AC9ABCE214ECFB900C52125 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4MR8AR9TLA;
+				INFOPLIST_FILE = "AccessibilityKit-macOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kpaw.AccessibilityKit-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		0AC9ABCF214ECFB900C52125 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4MR8AR9TLA;
+				INFOPLIST_FILE = "AccessibilityKit-macOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kpaw.AccessibilityKit-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -619,6 +866,24 @@
 			buildConfigurations = (
 				0A628B54213DBD9E00478E06 /* Debug */,
 				0A628B55213DBD9E00478E06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0AC9ABD0214ECFB900C52125 /* Build configuration list for PBXNativeTarget "AccessibilityKit-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0AC9ABCC214ECFB900C52125 /* Debug */,
+				0AC9ABCD214ECFB900C52125 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0AC9ABD1214ECFB900C52125 /* Build configuration list for PBXNativeTarget "AccessibilityKit-macOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0AC9ABCE214ECFB900C52125 /* Debug */,
+				0AC9ABCF214ECFB900C52125 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
