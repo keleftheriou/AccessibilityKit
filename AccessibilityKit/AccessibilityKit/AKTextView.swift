@@ -181,6 +181,3 @@ public class AKTextView: UITextView {
   }
   
 }
-
-  }
-}
