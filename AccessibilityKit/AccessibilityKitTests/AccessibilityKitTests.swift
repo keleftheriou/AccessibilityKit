@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import AccessibilityKit
+@testable import AccessibilityKit_iOS
 
 class AccessibilityKitTests: XCTestCase {
     
