@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AccessibilityKit
+import AccessibilityKit_iOS
 
 class MaxFontTextViewCell: UITableViewCell {
   

@@ -7,8 +7,8 @@
 //
 
 import Foundation
-
 #if os(iOS)
+import UIKit
 typealias AKStringDrawingOptions = NSStringDrawingOptions
 #else
 typealias AKStringDrawingOptions = NSString.DrawingOptions
