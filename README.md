@@ -29,7 +29,10 @@ As a bonus, you can also use all attributes of `NSAttributedString`, as well as 
 let view = AKTextView()
 
 // Use a simple or fancy NSAttributedString
-view.attributedText = .init(string: "Some text here", attributes: [.foregroundColor: UIColor.black])
+view.attributedText = .init(string: "Some text here", attributes: [
+  .font: UIFont.systemFont(ofSize: 12), // You *must* specify a font. The size will be ignored.
+  .foregroundColor: UIColor.black,
+])
 ```
 
 # Text-to-speech additions coming soon
