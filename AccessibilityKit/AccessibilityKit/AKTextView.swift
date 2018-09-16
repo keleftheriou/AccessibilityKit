@@ -34,6 +34,7 @@ public class AKView: UIView {
   private var longestWord: NSAttributedString!
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
   
+  // TODO: calculate the font size on `layoutSubviews`, and only apply the vertical aligntment here
   override public func draw(_ rect: CGRect) {
     guard longestWord != nil else { return }
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
