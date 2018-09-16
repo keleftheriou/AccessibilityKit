@@ -37,4 +37,4 @@ view.attributedText = .init(string: "Some text here", attributes: [
 
 # Text-to-speech additions coming soon
 
-AccessibilityKit is used in the award-winning, low-vision keyboard [FlickType](https://www.flicktype.com).
+_AccessibilityKit is used in the award-winning, low-vision keyboard [FlickType](https://www.flicktype.com)._
