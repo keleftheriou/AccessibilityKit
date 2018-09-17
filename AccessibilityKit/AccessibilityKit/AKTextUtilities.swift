@@ -40,6 +40,25 @@ class AKTextUtilities {
     }
   }
   
+  private static func sizingFunction1(string: NSAttributedString, fitSize: CGSize, options: AKStringDrawingOptions) -> CGSize {
+    let singleLine = !options.contains(.usesLineFragmentOrigin)
+    let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
+    return string.boundingRect(with: canvasSize, options: options, context: nil).size
+  }
+  
+  private static func sizingFunction2(string: NSAttributedString, fitSize: CGSize, singleLine: Bool) -> CGSize {
+    let layoutManager = NSLayoutManager()
+    let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
+    textContainer.lineFragmentPadding = 0
+    let textStorage = NSTextStorage(attributedString: string)
+    textStorage.addLayoutManager(layoutManager)
+    layoutManager.addTextContainer(textContainer)
+    let glyphRange = layoutManager.glyphRange(for: textContainer)
+    // Check that all glyphs fit inside our textContainer
+    assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
+    return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
+  }
+  
   private static let debugLogging = false
   private static var totalTime = 0.0
   private static var totalSearches = 0
@@ -56,9 +75,7 @@ class AKTextUtilities {
     // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
     let fitSize = _fitSize.floored
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize) { string in
-      let singleLine = !options.contains(.usesLineFragmentOrigin)
-      let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
-      return string.boundingRect(with: canvasSize, options: options, context: nil).size
+      sizingFunction1(string: string, fitSize: fitSize, options: options)
     }
   }
   
@@ -68,16 +85,7 @@ class AKTextUtilities {
     // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
     let fitSize = _fitSize.floored
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize) { string in
-      let layoutManager = NSLayoutManager()
-      let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
-      textContainer.lineFragmentPadding = 0
-      let textStorage = NSTextStorage(attributedString: string)
-      textStorage.addLayoutManager(layoutManager)
-      layoutManager.addTextContainer(textContainer)
-      let glyphRange = layoutManager.glyphRange(for: textContainer)
-      // Check that all glyphs fit inside our textContainer
-      assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
-      return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
+      sizingFunction2(string: string, fitSize: fitSize, singleLine: singleLine)
     }
   }
   
