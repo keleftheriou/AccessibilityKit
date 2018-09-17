@@ -22,7 +22,7 @@ open class AKTextView: NSTextView {
     setup()
   }
   
-  required public init?(coder: NSCoder) {
+  public required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -79,7 +79,7 @@ open class AKView: UIView {
   
   ///////////////////////////////////////////////////////////////////////////////////////
 
-  override public init(frame: CGRect) {
+  public override init(frame: CGRect) {
     super.init(frame: frame)
     contentMode = .redraw
     isOpaque = false
@@ -89,7 +89,7 @@ open class AKView: UIView {
   private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
   
   // TODO: calculate the font size on `layoutSubviews`, and only apply the vertical aligntment here
-  override public func draw(_ rect: CGRect) {
+  open override func draw(_ rect: CGRect) {
     guard longestWord != nil else { return }
     // TODO: For some reason this is not always equal to bounds, as described in the docs. Also oddly enough,
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
@@ -120,7 +120,7 @@ open class AKView: UIView {
     attributedText.withFontSize(maxFontSize).draw(with: box, options: drawingOptions, context: nil)
   }
   
-  required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+  public required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
 
 
@@ -128,7 +128,7 @@ open class AKLabel: UILabel {
   @objc
   public var verticalAlignment: VerticalAlignment = .center
   
-  public override var attributedText: NSAttributedString! {
+  open override var attributedText: NSAttributedString! {
     set {
       precondition(newValue.hasFontFullySpecified, "You must specify a font for all parts of the string.")
       super.attributedText = newValue
@@ -144,11 +144,11 @@ open class AKLabel: UILabel {
     numberOfLines = 0
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public override func layoutSubviews() {
+  open override func layoutSubviews() {
     super.layoutSubviews()
     
     guard attributedText != nil, attributedText.length > 0 else { return }
@@ -162,7 +162,7 @@ open class AKLabel: UILabel {
     super.attributedText = attributedText.withFontSize(maxFontSize)
   }
   
-  public override func draw(_ rect: CGRect) {
+  open override func draw(_ rect: CGRect) {
     if verticalAlignment != .center {
       let textRect = attributedText.boundingRect(with: bounds.size, options: .usesLineFragmentOrigin, context: nil)
       let padding = max(0, rect.height - textRect.height)
@@ -180,7 +180,7 @@ open class AKTextView: UITextView {
   @objc
   public var verticalAlignment: VerticalAlignment = .center
   
-  public override var attributedText: NSAttributedString! {
+  open override var attributedText: NSAttributedString! {
     set {
       precondition(newValue.hasFontFullySpecified, "You must specify a font for all parts of the string.")
       super.attributedText = newValue
@@ -200,11 +200,11 @@ open class AKTextView: UITextView {
     self.textContainerInset = .zero
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  public override func layoutSubviews() {
+  open override func layoutSubviews() {
     super.layoutSubviews()
     
     guard attributedText != nil, attributedText.length > 0 else { return }
