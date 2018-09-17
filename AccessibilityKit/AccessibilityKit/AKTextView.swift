@@ -37,13 +37,9 @@ open class AKTextView: NSTextView {
   }
   
   private func resizeFont() {
-    let fitSize = bounds.size
     let attributedText = NSAttributedString(string: string, attributes: [.font: NSFont.systemFont(ofSize: 12)])
     let longestWord = attributedText.longestWord
-    var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(fitSize.height, fitSize.width))
-    maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true)
-    maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false)
-    font = NSFont.systemFont(ofSize: maxFontSize)
+    font = NSFont.systemFont(ofSize: AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: bounds.size))
   }
   
   open override func didChangeText() {
@@ -95,14 +91,8 @@ open class AKView: UIView {
     // the origin on the first call is sometimes fractional, eg (0.0, -0.125) instead of .zero...
     //assert(rect == bounds)
     
-    // Ensure we never break a word into multiple lines.
-    // First, fit the largest word inside our bounds. Do NOT use .usesLineFragmentOrigin or .usesDeviceMetrics here, or else iOS may decide to break up the word in multiple lines...
-    var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(rect.height, rect.width))
-    maxFontSize = AKTextUtilities.binarySearch1(string: longestWord, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions.subtracting(.usesLineFragmentOrigin))
-    
-    // Now continue searching using the entire text, and restrict to our actual width while checking for height overflow.
-    if attributedText.length > longestWord.length {
-      maxFontSize = AKTextUtilities.binarySearch1(string: attributedText, maxFontSize: maxFontSize, fitSize: rect.size, options: drawingOptions)
+    let maxFontSize = AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: rect.size) { string, maxWidth in
+      AKTextUtilities.sizingFunction1(string: string, maxWidth: maxWidth, options: drawingOptions)
     }
     
     // Re-run to get the final boundingRect.
@@ -150,16 +140,9 @@ open class AKLabel: UILabel {
   
   open override func layoutSubviews() {
     super.layoutSubviews()
-    
     guard attributedText != nil, attributedText.length > 0 else { return }
     let longestWord = attributedText.longestWord
-    
-    let fitSize = bounds.size    
-    var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(fitSize.height, fitSize.width))
-    maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true)
-    maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false)
-    
-    super.attributedText = attributedText.withFontSize(maxFontSize)
+    super.attributedText = attributedText.withFontSize(AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: bounds.size))
   }
   
   open override func draw(_ rect: CGRect) {
@@ -212,10 +195,7 @@ open class AKTextView: UITextView {
     
     // We don't simply use `textContainer.size` because it will have infinite Y size if scrolling is enabled
     let fitSize = UIEdgeInsetsInsetRect(bounds, textContainerInset).size
-    var maxFontSize = AKTextUtilities.roundedFontSize(2 * min(fitSize.height, fitSize.width))
-    maxFontSize = AKTextUtilities.binarySearch2(string: longestWord,    maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true)
-    maxFontSize = AKTextUtilities.binarySearch2(string: attributedText, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false)
-    
+    let maxFontSize = AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize)
     // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
     super.attributedText = attributedText.withFontSize(maxFontSize)
     
