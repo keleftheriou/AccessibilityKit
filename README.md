@@ -36,12 +36,15 @@ view.attributedText = .init(string: "Some text here", attributes: [
   .font: UIFont.systemFont(ofSize: 12), // Font size will be ignored
   .foregroundColor: UIColor.black,
 ])
+
 // Add to the view hierarchy...
 ```
+
 macOS:
 ```
 let view = AKTextView()
 view.string = "Some text here"
+
 // Add to the view hierarchy...
 ```
 
