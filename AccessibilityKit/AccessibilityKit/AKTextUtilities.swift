@@ -134,6 +134,7 @@ extension String {
 
 extension NSAttributedString {
   
+  // Breaks up an NSAttributedString into its whitespace-separated NSAttributedString components
   private var components: [NSAttributedString] {
     var result = [NSAttributedString]()
     var lastPosition = 0
@@ -147,6 +148,11 @@ extension NSAttributedString {
   }
   
   var longestWord: NSAttributedString {
+    // Without a fully specified font, the "longest word" calculation" can fail: two long words with very similar sizes might "flip" in terms of which one is longest as the font size changes, eg:
+    // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [.font: UIFont.systemFont(ofSize: 100)], context: nil).width }
+    // [40.13671875, 40.5029296875] // "dynamic" is always larger, regardless of specified font size, as expected
+    // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [:], context: nil).width }
+    // [45.357421875, 44.68359375] // "example" is larger when no font is specified. What font is even used here??
     precondition(hasFontFullySpecified)
     return components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: [], context: nil).width) }.max { $0.1 < $1.1 }?.0 ?? .init()
   }
@@ -173,12 +179,8 @@ extension NSAttributedString {
     return result
   }
   
-  // For some reason, if the attributed text does not have a font we may have line spacing / positioning issues.
-  // Additionally, without a specified font, the "longest word" calculation" can fail: two long words with very similar sizes might "flip" in terms of which one is longest as the font size changes, eg:
-  // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [.font: UIFont.systemFont(ofSize: 100)], context: nil).width }
-  // [40.13671875, 40.5029296875] // "dynamic" is always larger, regardless of specified font size, as expected
-  // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [:], context: nil).width }
-  // [45.357421875, 44.68359375] // "example" is larger when no font is specified. What font is even used here??
+  // For some reason, if the attributed text does not have a font we may have line spacing / positioning issues, as well as issues with
+  // the calculation of `longestWord`.
   var hasFontFullySpecified: Bool {
     var result = true
     self.enumerateAttribute(.font, in: NSRange(location: 0, length: length), options: []) { value, range, stop in
