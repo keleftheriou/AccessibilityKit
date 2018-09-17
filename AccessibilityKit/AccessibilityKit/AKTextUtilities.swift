@@ -16,8 +16,6 @@ typealias AKStringDrawingOptions = NSString.DrawingOptions
 
 class AKTextUtilities {
   
-  // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
-
   typealias SizingFunction = (_ string: NSAttributedString, _ maxWidth: CGFloat) -> CGSize
   
   private static let minFontSize: CGFloat = 1
@@ -25,7 +23,7 @@ class AKTextUtilities {
   // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
   private static let accuracyThreshold: CGFloat = 1.0
   
-  static func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
+  private static func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
@@ -40,23 +38,6 @@ class AKTextUtilities {
     } else {
       return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
     }
-  }
-  
-  static func sizingFunction1(string: NSAttributedString, maxWidth: CGFloat, options: AKStringDrawingOptions) -> CGSize {
-    return string.boundingRect(with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude), options: options, context: nil).size
-  }
-  
-  static func sizingFunction2(string: NSAttributedString, maxWidth: CGFloat) -> CGSize {
-    let layoutManager = NSLayoutManager()
-    let textContainer = NSTextContainer(size: CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
-    textContainer.lineFragmentPadding = 0
-    let textStorage = NSTextStorage(attributedString: string)
-    textStorage.addLayoutManager(layoutManager)
-    layoutManager.addTextContainer(textContainer)
-    let glyphRange = layoutManager.glyphRange(for: textContainer)
-    // Check that all glyphs fit inside our textContainer
-    assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
-    return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
   }
   
   static func maxFontSize(string: NSAttributedString, longestWord: NSAttributedString, fitSize _fitSize: CGSize, sizingFunction: SizingFunction = AKTextUtilities.sizingFunction2) -> CGFloat {
@@ -75,6 +56,33 @@ class AKTextUtilities {
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, sizingFunction: sizingFunction)
   }
   
+}
+
+extension AKTextUtilities {
+
+  // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping?
+
+  static func sizingFunction1(string: NSAttributedString, maxWidth: CGFloat, options: AKStringDrawingOptions) -> CGSize {
+    return string.boundingRect(with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude), options: options, context: nil).size
+  }
+  
+  static func sizingFunction2(string: NSAttributedString, maxWidth: CGFloat) -> CGSize {
+    let layoutManager = NSLayoutManager()
+    let textContainer = NSTextContainer(size: CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
+    textContainer.lineFragmentPadding = 0
+    let textStorage = NSTextStorage(attributedString: string)
+    textStorage.addLayoutManager(layoutManager)
+    layoutManager.addTextContainer(textContainer)
+    let glyphRange = layoutManager.glyphRange(for: textContainer)
+    // Check that all glyphs fit inside our textContainer
+    assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
+    return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
+  }
+
+}
+
+extension AKTextUtilities {
+  
   private static let debugLogging = false
   private static var totalTime = 0.0
   private static var totalSearches = 0
@@ -84,6 +92,7 @@ class AKTextUtilities {
     totalSearches += 1
     if debugLogging { print("Average font search time: \(totalTime / Double(totalSearches))") }
   }
+  
 }
 
 extension CGSize {
