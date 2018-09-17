@@ -12,6 +12,30 @@ public enum VerticalAlignment : Int {
 #if os(macOS)
 public class AKTextView: NSTextView {
   
+  public override init(frame frameRect: NSRect) {
+    super.init(frame: frameRect)
+    setup()
+  }
+  
+  public override init(frame frameRect: NSRect, textContainer container: NSTextContainer?) {
+    super.init(frame: frameRect, textContainer: container)
+    setup()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setup() {
+    // We want our bounds to remain fixed
+    isVerticallyResizable = false
+    isHorizontallyResizable = false
+    // Remove internal horizontal padding
+    textContainer?.lineFragmentPadding = 0
+    // Remove all padding
+    textContainerInset = .zero
+  }
+  
   private func resizeFont() {
     let fitSize = bounds.size
     let attributedText = NSAttributedString(string: string, attributes: [.font: NSFont.systemFont(ofSize: 12)])

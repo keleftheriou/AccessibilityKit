@@ -29,21 +29,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 class ViewController: NSViewController {
   
-  let textView: NSView = {
-    let view = AKTextView()
-    // TODO: all this should be inside our own initializer
-    view.isVerticallyResizable = false
-    view.isHorizontallyResizable = false
-    // Remove internal horizontal padding
-    view.textContainer!.lineFragmentPadding = 0
-    // Remove all padding
-    view.textContainerInset = .zero
-    return view
-  }()
+  let textView = AKTextView()
   
   override func loadView() {
-    textView.autoresizingMask = [.width, .height]
-    self.view = textView
+    view = textView
+    view.autoresizingMask = [.width, .height]
   }
   
   override func viewWillLayout() {
