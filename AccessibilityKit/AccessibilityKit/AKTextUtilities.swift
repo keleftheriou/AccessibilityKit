@@ -25,7 +25,11 @@ class AKTextUtilities {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
-  private static func _binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: AKStringDrawingOptions) -> CGFloat {
+  static func binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize _fitSize: CGSize, options: AKStringDrawingOptions) -> CGFloat {
+    let startTime = CFAbsoluteTimeGetCurrent()
+    defer { postInvocationHandler(startTime) }
+    // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
+    let fitSize = _fitSize.floored
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize) { string in
       let singleLine = !options.contains(.usesLineFragmentOrigin)
       let canvasSize = CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude)
@@ -33,7 +37,11 @@ class AKTextUtilities {
     }
   }
   
-  private static func _binarySearch2(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool) -> CGFloat {
+  static func binarySearch2(string: NSAttributedString, maxFontSize: CGFloat, fitSize _fitSize: CGSize, singleLine: Bool) -> CGFloat {
+    let startTime = CFAbsoluteTimeGetCurrent()
+    defer { postInvocationHandler(startTime) }
+    // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
+    let fitSize = _fitSize.floored
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize) { string in
       let layoutManager = NSLayoutManager()
       let textContainer = NSTextContainer(size: CGSize(width: singleLine ? .greatestFiniteMagnitude : fitSize.width, height: .greatestFiniteMagnitude))
@@ -69,20 +77,6 @@ class AKTextUtilities {
     totalTime += dt
     totalSearches += 1
     if debugLogging { print("Average font search time: \(totalTime / Double(totalSearches))") }
-  }
-  
-  // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
-  static func binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, options: AKStringDrawingOptions) -> CGFloat {
-    let startTime = CFAbsoluteTimeGetCurrent()
-    defer { postInvocationHandler(startTime) }
-    return _binarySearch1(string: string, maxFontSize: maxFontSize, fitSize:fitSize.floored, options: options)
-  }
-  
-  // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
-  static func binarySearch2(string: NSAttributedString, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool) -> CGFloat {
-    let startTime = CFAbsoluteTimeGetCurrent()
-    defer { postInvocationHandler(startTime) }
-    return _binarySearch2(string:string, maxFontSize:maxFontSize, fitSize:fitSize.floored, singleLine:singleLine)
   }
   
   // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
