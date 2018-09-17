@@ -25,24 +25,26 @@ As a bonus, you can also use all attributes of `NSAttributedString`, as well as 
 
 ## Usage
 
-You can use `AKTextView` as a drop-in replacement for `UITextView` and `NSTextView` (iOS and macOS). There's also `AKLabel` (replacement for `UILabel`), as well as an even more performant, bare-bones subclass of `UIView` called `AKView`.
+You can use `AKTextView` as a drop-in replacement for `UITextView` and `NSTextView` (iOS and macOS). There's also `AKLabel` (replacement for `UILabel`), as well as `AKView`, an even more performant and bare-bones subclass of `UIView`.
 
 iOS:
 ```
 let view = AKTextView()
 
 // Use a simple or fancy NSAttributedString.
-// NOTE: You *must* specify a font. The size will be ignored.
 view.attributedText = .init(string: "Some text here", attributes: [
-  .font: UIFont.systemFont(ofSize: 12),
+  .font: UIFont.systemFont(ofSize: 12), // Font size will be ignored
   .foregroundColor: UIColor.black,
 ])
+
 // Add to the view hierarchy...
 ```
+
 macOS:
 ```
 let view = AKTextView()
 view.string = "Some text here"
+
 // Add to the view hierarchy...
 ```
 
