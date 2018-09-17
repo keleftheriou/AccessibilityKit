@@ -10,7 +10,7 @@ public enum VerticalAlignment : Int {
 }
 
 #if os(macOS)
-public class AKTextView: NSTextView {
+open class AKTextView: NSTextView {
   
   public override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
@@ -22,7 +22,7 @@ public class AKTextView: NSTextView {
     setup()
   }
   
-  required init?(coder: NSCoder) {
+  required public init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -51,7 +51,7 @@ public class AKTextView: NSTextView {
     resizeFont()
   }
   
-  public override func layout() {
+  open override func layout() {
     super.layout()
     resizeFont()
   }
@@ -59,7 +59,7 @@ public class AKTextView: NSTextView {
 
 #else
 
-public class AKView: UIView {
+open class AKView: UIView {
   
   @objc
   public var verticalAlignment: VerticalAlignment = .center {
@@ -122,7 +122,7 @@ public class AKView: UIView {
 }
 
 
-public class AKLabel: UILabel {
+open class AKLabel: UILabel {
   @objc
   public var verticalAlignment: VerticalAlignment = .center
   
@@ -173,7 +173,7 @@ public class AKLabel: UILabel {
 }
 
 
-public class AKTextView: UITextView {
+open class AKTextView: UITextView {
   
   @objc
   public var verticalAlignment: VerticalAlignment = .center
