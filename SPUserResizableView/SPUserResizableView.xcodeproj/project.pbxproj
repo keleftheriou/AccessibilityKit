@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0AAE4EFD214717B700EB8418 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AAE4EFC214717B600EB8418 /* LaunchScreen.storyboard */; };
+		0AC4DB53214F53C80028AA4E /* AccessibilityKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC4DB52214F53C80028AA4E /* AccessibilityKit_iOS.framework */; };
+		0AC4DB54214F53C80028AA4E /* AccessibilityKit_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC4DB52214F53C80028AA4E /* AccessibilityKit_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AC9ABA3214AE16D00C52125 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9ABA2214AE16D00C52125 /* Test.swift */; };
-		0AC9ABA9214DBAFD00C52125 /* AccessibilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */; };
-		0AC9ABAA214DBAFD00C52125 /* AccessibilityKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		24464BAD1BBA4128006D0582 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24464BAC1BBA4128006D0582 /* Images.xcassets */; };
 		24E4394A1BBA5B4B009EBDDA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E439491BBA5B4B009EBDDA /* QuartzCore.framework */; };
 		9C36DD3A1494491A00D3035F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C36DD391494491A00D3035F /* UIKit.framework */; };
@@ -25,13 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0AC9ABAB214DBAFD00C52125 /* Embed Frameworks */ = {
+		0AC4DB55214F53C80028AA4E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0AC9ABAA214DBAFD00C52125 /* AccessibilityKit.framework in Embed Frameworks */,
+				0AC4DB54214F53C80028AA4E /* AccessibilityKit_iOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,6 +41,7 @@
 /* Begin PBXFileReference section */
 		0AAE4EF921438BBF00EB8418 /* SPUserResizableView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SPUserResizableView-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AAE4EFC214717B600EB8418 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0AC4DB52214F53C80028AA4E /* AccessibilityKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AccessibilityKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC9ABA2214AE16D00C52125 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		0AC9ABA4214DB98500C52125 /* AccessibilityKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AccessibilityKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24464BAC1BBA4128006D0582 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -67,7 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AC9ABA9214DBAFD00C52125 /* AccessibilityKit.framework in Frameworks */,
+				0AC4DB53214F53C80028AA4E /* AccessibilityKit_iOS.framework in Frameworks */,
 				24E4394A1BBA5B4B009EBDDA /* QuartzCore.framework in Frameworks */,
 				9C36DD3A1494491A00D3035F /* UIKit.framework in Frameworks */,
 				9C36DD3C1494491A00D3035F /* Foundation.framework in Frameworks */,
@@ -81,6 +82,7 @@
 		9C36DD2A1494491A00D3035F = {
 			isa = PBXGroup;
 			children = (
+				0AC4DB52214F53C80028AA4E /* AccessibilityKit_iOS.framework */,
 				9C36DD3F1494491A00D3035F /* SPUserResizableView */,
 				9C36DD381494491A00D3035F /* Frameworks */,
 				9C36DD361494491A00D3035F /* Products */,
@@ -149,7 +151,7 @@
 				9C36DD311494491A00D3035F /* Sources */,
 				9C36DD321494491A00D3035F /* Frameworks */,
 				9C36DD331494491A00D3035F /* Resources */,
-				0AC9ABAB214DBAFD00C52125 /* Embed Frameworks */,
+				0AC4DB55214F53C80028AA4E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
