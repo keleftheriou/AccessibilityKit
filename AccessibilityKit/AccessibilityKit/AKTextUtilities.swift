@@ -16,6 +16,8 @@ typealias AKStringDrawingOptions = NSString.DrawingOptions
 
 class AKTextUtilities {
   
+  // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
+
   private static let minFontSize: CGFloat = 1
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
   // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
@@ -23,6 +25,29 @@ class AKTextUtilities {
   
   static func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
+  }
+  
+  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, sizingFunction: (NSAttributedString) -> CGSize) -> CGFloat {
+    let avgSize = roundedFontSize((minFontSize + maxFontSize)/2)
+    if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
+    let newSize = sizingFunction(string.withFontSize(avgSize))
+    let fits = fitSize.contains(newSize)
+    if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(avgSize) newSize \(newSize), fits: \(fits)") }
+    if fits {
+      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, sizingFunction: sizingFunction)
+    } else {
+      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, sizingFunction: sizingFunction)
+    }
+  }
+  
+  private static let debugLogging = false
+  private static var totalTime = 0.0
+  private static var totalSearches = 0
+  private static func postInvocationHandler(_ startTime: TimeInterval) {
+    let dt = CFAbsoluteTimeGetCurrent() - startTime
+    totalTime += dt
+    totalSearches += 1
+    if debugLogging { print("Average font search time: \(totalTime / Double(totalSearches))") }
   }
   
   static func binarySearch1(string: NSAttributedString, maxFontSize: CGFloat, fitSize _fitSize: CGSize, options: AKStringDrawingOptions) -> CGFloat {
@@ -56,30 +81,6 @@ class AKTextUtilities {
     }
   }
   
-  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, sizingFunction: (NSAttributedString) -> CGSize) -> CGFloat {
-    let avgSize = roundedFontSize((minFontSize + maxFontSize)/2)
-    if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
-    let newSize = sizingFunction(string.withFontSize(avgSize))
-    let fits = fitSize.contains(newSize)
-    if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(avgSize) newSize \(newSize), fits: \(fits)") }
-    if fits {
-      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, sizingFunction: sizingFunction)
-    } else {
-      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, sizingFunction: sizingFunction)
-    }
-  }
-  
-  private static let debugLogging = false
-  private static var totalTime = 0.0
-  private static var totalSearches = 0
-  private static func postInvocationHandler(_ startTime: TimeInterval) {
-    let dt = CFAbsoluteTimeGetCurrent() - startTime
-    totalTime += dt
-    totalSearches += 1
-    if debugLogging { print("Average font search time: \(totalTime / Double(totalSearches))") }
-  }
-  
-  // TODO: Some iOS text APIs seem to calculate text bounds incorrectly in some cases, eg italic fonts, resulting in some occasional clipping. Add a space here as a hacky workaround?
 }
 
 extension CGSize {
