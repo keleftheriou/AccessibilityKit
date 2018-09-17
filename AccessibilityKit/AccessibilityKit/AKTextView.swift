@@ -55,6 +55,8 @@ open class AKTextView: NSTextView {
     super.layout()
     resizeFont()
   }
+  
+  // TODO: vertical alignment option
 }
 
 #else
