@@ -29,7 +29,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 class ViewController: NSViewController {
   
-  let textView = AKTextView()
+  class MyTextView: AKTextView {
+    let gradient = CAGradientLayer()
+    override func layout() {
+      super.layout()
+      if gradient.superlayer == nil {
+        drawsBackground = false
+        wantsLayer = true
+        gradient.colors = [NSColor.white.cgColor, NSColor.gray.cgColor]
+        layer!.insertSublayer(gradient, at: 0)
+      }
+      gradient.frame = bounds
+    }
+  }
+  
+  let textView = MyTextView()
   
   override func loadView() {
     view = textView
