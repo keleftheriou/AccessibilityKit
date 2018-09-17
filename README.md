@@ -32,9 +32,8 @@ iOS:
 let view = AKTextView()
 
 // Use a simple or fancy NSAttributedString.
-// NOTE: You *must* specify a font. The size will be ignored.
 view.attributedText = .init(string: "Some text here", attributes: [
-  .font: UIFont.systemFont(ofSize: 12),
+  .font: UIFont.systemFont(ofSize: 12), // Font size will be ignored
   .foregroundColor: UIColor.black,
 ])
 // Add to the view hierarchy...
