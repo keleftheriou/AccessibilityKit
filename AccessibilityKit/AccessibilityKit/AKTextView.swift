@@ -82,7 +82,7 @@ open class AKView: UIView {
   }
   
   private var longestWord: NSAttributedString!
-  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin]
+  private let drawingOptions: NSStringDrawingOptions = [.usesLineFragmentOrigin] // Must use `.usesLineFragmentOrigin`. Other options may also be used.
   
   // TODO: calculate the font size on `layoutSubviews`, and only apply the vertical aligntment here
   open override func draw(_ rect: CGRect) {
@@ -95,7 +95,7 @@ open class AKView: UIView {
       AKTextUtilities.sizingFunction1(string: string, maxWidth: maxWidth, options: drawingOptions)
     }
     
-    // Re-run to get the final boundingRect.
+    // Re-run to get the actual used boundingRect.
     let result = attributedText.withFontSize(maxFontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions, context: nil)
     
     let vShift: CGFloat = {
