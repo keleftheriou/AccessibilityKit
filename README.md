@@ -25,7 +25,7 @@ As a bonus, you can also use all attributes of `NSAttributedString`, as well as 
 
 ## Usage
 
-You can use `AKTextView` as a drop-in replacement for `UITextView` and `NSTextView` (iOS and macOS). There's also `AKLabel` (replacement for `UILabel`), as well as an even more performant, bare-bones subclass of `UIView` called `AKView`.
+You can use `AKTextView` as a drop-in replacement for `UITextView` and `NSTextView` (iOS and macOS). There's also `AKLabel` (replacement for `UILabel`), as well as `AKView`, an even more performant and bare-bones subclass of `UIView`.
 
 iOS:
 ```
