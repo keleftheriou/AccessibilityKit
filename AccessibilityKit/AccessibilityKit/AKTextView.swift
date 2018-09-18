@@ -12,6 +12,11 @@ public enum VerticalAlignment : Int {
 #if os(macOS)
 open class AKTextView: NSTextView {
   
+  @objc
+  public var verticalAlignment: VerticalAlignment = .center {
+    didSet { setNeedsDisplay(bounds)}
+  }
+  
   public override init(frame frameRect: NSRect) {
     super.init(frame: frameRect)
     setup()
@@ -52,6 +57,18 @@ open class AKTextView: NSTextView {
     resizeFont()
   }
   
+  open override func draw(_ dirtyRect: NSRect) {
+
+    if verticalAlignment != .top {
+      let glyphRange = layoutManager!.glyphRange(for: textContainer!)
+      let textRect = layoutManager!.boundingRect(forGlyphRange: glyphRange, in: textContainer!)
+      let padding = max(0, bounds.height - textRect.height)
+      let yShift = verticalAlignment == .center ? padding/2 : padding
+      NSGraphicsContext.current!.cgContext.translateBy(x: 0, y: yShift)
+    }
+    
+    super.draw(dirtyRect)
+  }
   // TODO: vertical alignment option
 }
 
