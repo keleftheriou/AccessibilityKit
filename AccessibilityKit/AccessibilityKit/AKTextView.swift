@@ -37,14 +37,13 @@ open class AKTextView: NSTextView {
     isHorizontallyResizable = false
     // Remove internal horizontal padding
     textContainer?.lineFragmentPadding = 0
-    // Remove all padding
-    textContainerInset = .zero
   }
   
   private func resizeFont() {
     let attributedText = NSAttributedString(string: string, attributes: [.font: NSFont.systemFont(ofSize: 12)])
     let longestWord = attributedText.longestWord
-    font = NSFont.systemFont(ofSize: AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: bounds.size))
+    let fitSize = NSSize(width: textContainer!.size.width, height: bounds.height - 2 * textContainerInset.height)
+    font = NSFont.systemFont(ofSize: AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize))
   }
   
   open override func didChangeText() {
@@ -62,7 +61,7 @@ open class AKTextView: NSTextView {
     if verticalAlignment != .top {
       let glyphRange = layoutManager!.glyphRange(for: textContainer!)
       let textRect = layoutManager!.boundingRect(forGlyphRange: glyphRange, in: textContainer!)
-      let padding = max(0, bounds.height - textRect.height)
+      let padding = max(0, bounds.height - textRect.height - 2 * textContainerInset.height)
       let yShift = verticalAlignment == .center ? padding/2 : padding
       NSGraphicsContext.current!.cgContext.translateBy(x: 0, y: yShift)
     }
