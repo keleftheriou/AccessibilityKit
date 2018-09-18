@@ -70,7 +70,7 @@ open class AKTextView: NSTextView {
     
     super.draw(dirtyRect)
   }
-  // TODO: vertical alignment option
+
 }
 
 #else
