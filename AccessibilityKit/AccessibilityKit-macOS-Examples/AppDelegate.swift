@@ -33,13 +33,27 @@ class ViewController: NSViewController {
     let gradient = CAGradientLayer()
     override func layout() {
       super.layout()
+    
+      // Our init function. I know.
       if gradient.superlayer == nil {
         drawsBackground = false
         wantsLayer = true
         gradient.colors = [NSColor.white.cgColor, NSColor.gray.cgColor]
         layer!.insertSublayer(gradient, at: 0)
+        ///////////////////////////////////////
+        alignment = .center
+        verticalAlignment = .center
+        textContainerInset = .init(width: 20, height: 20)
       }
+      
       gradient.frame = bounds
+    }
+    
+    open override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
+      let desiredWidth = font!.pointSize * 0.05
+      // Grow rect towards the left, not the right, to avoid the cursor sometimes getting clipped.
+      let rect = NSRect(x: rect.maxX - desiredWidth, y: rect.origin.y, width: desiredWidth, height: rect.height)
+      super.drawInsertionPoint(in: rect, color: NSColor.systemBlue, turnedOn: flag)
     }
   }
   
