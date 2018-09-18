@@ -40,7 +40,9 @@ open class AKTextView: NSTextView {
   }
   
   private func resizeFont() {
-    let attributedText = NSAttributedString(string: string, attributes: [.font: NSFont.systemFont(ofSize: 12)])
+    var text = string
+    if text.isEmpty { text = " " } // To ensure the caret always has an appropriate size
+    let attributedText = NSAttributedString(string: text, attributes: [.font: NSFont.systemFont(ofSize: 12)])
     let longestWord = attributedText.longestWord
     let fitSize = NSSize(width: textContainer!.size.width, height: bounds.height - 2 * textContainerInset.height)
     font = NSFont.systemFont(ofSize: AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize))
