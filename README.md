@@ -16,7 +16,7 @@ As a bonus, you can also use all attributes of `NSAttributedString`, as well as 
 
 ## Why?
 
-- `UILabel`'s `adjustsFontSizeToFitWidth` doesn't play nice with multiple lines.
+- `UILabel`'s `adjustsFontSizeToFitWidth` doesn't support multiple lines.
 - `UITextView` doesn't have `adjustsFontSizeToFitWidth`.
 - Other solutions might render text incorrectly.
 - Other solutions don't support attributed strings.
