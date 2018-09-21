@@ -40,7 +40,6 @@ typedef struct SPUserResizableViewAnchorPoint {
 @end
 
 @interface SPUserResizableView : UIView {
-    UIView* contentView;
     CGPoint touchStart;
     CGFloat minWidth;
     CGFloat minHeight;
@@ -49,9 +48,7 @@ typedef struct SPUserResizableViewAnchorPoint {
     
     // Used to determine which components of the bounds we'll be modifying, based upon where the user's touch started.
     SPUserResizableViewAnchorPoint anchorPoint;
-    
-    id <SPUserResizableViewDelegate> delegate;
-    
+        
     /**
      *  This will ensure that when the resizing is done, it will restore
      *  anchor point.
