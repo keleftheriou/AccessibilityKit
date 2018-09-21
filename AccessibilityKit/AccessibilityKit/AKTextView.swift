@@ -212,7 +212,7 @@ open class AKTextView: UITextView {
     let longestWord = attributedText.longestWord
     
     // We don't simply use `textContainer.size` because it will have infinite Y size if scrolling is enabled
-    let fitSize = UIEdgeInsetsInsetRect(bounds, textContainerInset).size
+    let fitSize = bounds.inset(by: textContainerInset).size
     let maxFontSize = AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize)
     // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
     super.attributedText = attributedText.withFontSize(maxFontSize)

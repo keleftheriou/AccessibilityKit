@@ -413,6 +413,7 @@
 					};
 					0A628B43213DBD9E00478E06 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 					0AC9ABBA214ECFB900C52125 = {
 						CreatedOnToolsVersion = 10.0;
@@ -422,7 +423,7 @@
 					};
 					0AF64556213D985900B31A57 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 0940;
+						LastSwiftMigration = 1000;
 					};
 					0AF6455F213D985900B31A57 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -672,7 +673,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kpaw.AccessibilityKitExamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -693,7 +694,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kpaw.AccessibilityKitExamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -942,7 +943,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -966,7 +967,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kpaw.AccessibilityKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

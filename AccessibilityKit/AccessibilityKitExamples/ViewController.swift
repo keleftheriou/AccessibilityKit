@@ -14,7 +14,7 @@ class MaxFontTextViewCell: UITableViewCell {
   let maxFontTextView = AKLabel()
   let gradient = CAGradientLayer()
   
-  override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     maxFontTextView.backgroundColor = .clear
     contentView.addSubview(maxFontTextView)
@@ -26,7 +26,7 @@ class MaxFontTextViewCell: UITableViewCell {
     let safeBounds = contentView.safeAreaLayoutGuide.layoutFrame
     gradient.frame = safeBounds
     // `AKTextView` does not have any default padding, so add some here
-    maxFontTextView.frame = UIEdgeInsetsInsetRect(safeBounds, UIEdgeInsetsMake(10, 10, 10, 10))
+    maxFontTextView.frame = safeBounds.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
   }
   
   required init?(coder aDecoder: NSCoder) {
