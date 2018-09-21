@@ -153,15 +153,10 @@ static SPUserResizableViewAnchorPoint SPUserResizableViewLowerRightAnchorPoint =
   [self addGestureRecognizer:self.panRecognizer];
   self.panRecognizer.delegate = self;
   
-#if 0
-  AKLabel* textView = [[AKLabel alloc] init];
-  textView.attributedText = Test.testString;
-#else
   AKTextView* textView = [[AKTextView alloc] init];
   //textView.userInteractionEnabled = NO;
   textView.backgroundColor = [UIColor darkGrayColor];
   textView.attributedText = Test.testString;
-#endif
   
   self.textView = textView;
 }
