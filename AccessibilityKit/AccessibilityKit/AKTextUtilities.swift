@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(iOS)
+#if os(iOS) || os (watchOS)
 import UIKit
 typealias AKStringDrawingOptions = NSStringDrawingOptions
 #else
@@ -40,7 +40,7 @@ class AKTextUtilities {
     }
   }
   
-  static func maxFontSize(string: NSAttributedString, longestWord: NSAttributedString, fitSize _fitSize: CGSize, sizingFunction: SizingFunction = AKTextUtilities.sizingFunction2) -> CGFloat {
+  static func maxFontSize(string: NSAttributedString, longestWord: NSAttributedString, fitSize _fitSize: CGSize, sizingFunction: SizingFunction) -> CGFloat {
     let startTime = CFAbsoluteTimeGetCurrent()
     defer { postInvocationHandler(startTime) }
     // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
@@ -66,6 +66,7 @@ extension AKTextUtilities {
     return string.boundingRect(with: CGSize(width: maxWidth, height: .greatestFiniteMagnitude), options: options, context: nil).size
   }
   
+  #if !os(watchOS)
   static func sizingFunction2(string: NSAttributedString, maxWidth: CGFloat) -> CGSize {
     let layoutManager = NSLayoutManager()
     let textContainer = NSTextContainer(size: CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
@@ -78,6 +79,7 @@ extension AKTextUtilities {
     assert(glyphRange.location == 0 && glyphRange.length == layoutManager.numberOfGlyphs)
     return layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer).size
   }
+  #endif
 
 }
 
@@ -162,7 +164,7 @@ extension NSAttributedString {
     let result = NSMutableAttributedString(attributedString: self)
     result.enumerateAttribute(.font, in: NSRange(location: 0, length: result.length), options: []) { value, range, stop in
       guard let value = value else { preconditionFailure("String must have a font set in all locations.") }
-      #if os(iOS)
+      #if os(iOS) || os(watchOS)
       let oldFont: UIFont = value as! UIFont
       let newFont: UIFont = oldFont.withSize(fontSize)
       #else
