@@ -140,7 +140,8 @@ extension NSAttributedString {
   private var components: [NSAttributedString] {
     var result = [NSAttributedString]()
     var lastPosition = 0
-    string.rangesOfCharacters(from: .whitespacesAndNewlines).forEach { skipRange in
+    let separators = CharacterSet(charactersIn: " \n") // .whitespacesAndNewlines would break on non-breaking spaces
+    string.rangesOfCharacters(from: separators).forEach { skipRange in
       let range = NSRange(location: lastPosition, length: skipRange.location - lastPosition)
       result += [attributedSubstring(from: range)]
       lastPosition = skipRange.upperBound
