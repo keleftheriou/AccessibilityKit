@@ -171,7 +171,7 @@ extension NSAttributedString {
       guard let value = value else { preconditionFailure("String must have a font set in all locations.") }
       #if os(iOS) || os(watchOS)
       let oldFont: UIFont = value as! UIFont
-      let newFont: UIFont = oldFont.withSize(fontSize)
+      let newFont: UIFont = oldFont.withSize(oldFont.pointSize > 1 ? fontSize : oldFont.pointSize * fontSize)
       #else
       let oldFont: NSFont = value as! NSFont
       let newFont: NSFont = NSFont(descriptor: oldFont.fontDescriptor, size: fontSize)!
