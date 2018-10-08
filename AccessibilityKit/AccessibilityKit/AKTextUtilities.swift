@@ -139,6 +139,10 @@ extension NSAttributedString {
   // Breaks up an NSAttributedString into its whitespace-separated NSAttributedString components
   private var components: [NSAttributedString] {
     var result = [NSAttributedString]()
+    // This does not treat non-breaking spaces correctly:
+    //string.enumerateSubstrings(in: string.startIndex ..< string.endIndex, options: .byWords) { (substring, substringRange, enclosingRange, stop) in
+    //  result += [self.attributedSubstring(from: NSRange(enclosingRange, in: self.string))]
+    //}
     var lastPosition = 0
     let separators = CharacterSet(charactersIn: " \n") // .whitespacesAndNewlines would break on non-breaking spaces
     string.rangesOfCharacters(from: separators).forEach { skipRange in
