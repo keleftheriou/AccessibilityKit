@@ -114,17 +114,17 @@ open class AKView: UIView {
     }
     
     // Re-run to get the actual used boundingRect.
-    let result = attributedText.withFontSize(maxFontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions, context: nil)
+    let textRect = attributedText.withFontSize(maxFontSize).boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude), options: drawingOptions, context: nil)
     
     let vShift: CGFloat = {
       switch verticalAlignment {
       case .top: return 0
-      case .center: return (rect.height - result.height)/2
-      case .bottom: return rect.height - result.height
+      case .center: return (rect.height - textRect.height)/2
+      case .bottom: return rect.height - textRect.height
       }
     }()
     
-    let box = CGRect(center: CGPoint(x: rect.center.x, y: result.center.y + vShift), size: CGSize(width: rect.width, height: result.height))
+    let box = CGRect(center: CGPoint(x: rect.center.x, y: textRect.center.y + vShift), size: CGSize(width: rect.width, height: textRect.height))
     attributedText.withFontSize(maxFontSize).draw(with: box, options: drawingOptions, context: nil)
   }
   
