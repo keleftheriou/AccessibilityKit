@@ -40,6 +40,7 @@ class AKTextUtilities {
     }
   }
   
+  // TODO: build a few per-fitSize caches
   static func maxFontSize(string: NSAttributedString, longestWord: NSAttributedString, fitSize _fitSize: CGSize, sizingFunction: SizingFunction) -> CGFloat {
     let startTime = CFAbsoluteTimeGetCurrent()
     defer { postInvocationHandler(startTime) }
@@ -99,12 +100,12 @@ extension AKTextUtilities {
 
 extension CGSize {
   
-  static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+  public static let greatestFiniteSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
   
-  func contains(_ size: CGSize) -> Bool {
+  public func contains(_ size: CGSize) -> Bool {
     return width >= size.width && height >= size.height
   }
-  var floored: CGSize {
+  public var floored: CGSize {
     return CGSize(width: floor(width), height: floor(height))
   }
 }
@@ -160,6 +161,7 @@ extension NSAttributedString {
     // [40.13671875, 40.5029296875] // "dynamic" is always larger, regardless of specified font size, as expected
     // > ["example", "dynamic"].map { $0.boundingRect(with: .greatestFiniteSize, options: [], attributes: [:], context: nil).width }
     // [45.357421875, 44.68359375] // "example" is larger when no font is specified. What font is even used here??
+    // UPDATE: on watchOS (perhaps elsewhere too) this is still not robust and might choose the "wrong" word
     precondition(hasFontFullySpecified)
     return components.map { ($0, $0.boundingRect(with: .greatestFiniteSize, options: [], context: nil).width) }.max { $0.1 < $1.1 }?.0 ?? .init()
   }

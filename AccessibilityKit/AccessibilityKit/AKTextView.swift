@@ -73,7 +73,9 @@ open class AKTextView: NSTextView {
 
 }
 
-#else
+#endif
+
+#if os(iOS)
 
 open class AKView: UIView {
   
