@@ -1,4 +1,6 @@
-# AccessibilityKit ♿️
+# AccessibilityKit
+
+![Logo](/assets/logo.png)
 
 [![Build Status](https://travis-ci.com/keleftheriou/AccessibilityKit.svg?branch=master)](https://travis-ci.com/keleftheriou/AccessibilityKit) ![Carthage](https://img.shields.io/github/tag/keleftheriou/AccessibilityKit.svg?label=Carthage&colorB=999) [![License: MIT](https://img.shields.io/github/license/keleftheriou/AccessibilityKit.svg)](https://opensource.org/licenses/MIT) 
 
