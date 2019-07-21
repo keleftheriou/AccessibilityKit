@@ -30,14 +30,14 @@ class AKTextUtilities {
   
   private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, sizingFunction: SizingFunction) -> CGFloat {
     if maxFontSize - minFontSize < accuracyThreshold { return roundedFontSize(minFontSize) }
-    let avgSize = (minFontSize + maxFontSize)/2
-    let newSize = sizingFunction(string.withFontSize(roundedFontSize(avgSize)), singleLine ? .greatestFiniteMagnitude : fitSize.width)
+    let midFontSize = (minFontSize + maxFontSize)/2
+    let newSize = sizingFunction(string.withFontSize(roundedFontSize(midFontSize)), singleLine ? .greatestFiniteMagnitude : fitSize.width)
     let fits = fitSize.contains(newSize)
-    if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(avgSize) newSize \(newSize), fits: \(fits)") }
+    if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(midFontSize) newSize \(newSize), fits: \(fits)") }
     if fits {
-      return binarySearch(string: string, minFontSize:avgSize, maxFontSize:maxFontSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
+      return binarySearch(string: string, minFontSize:midFontSize, maxFontSize:maxFontSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
     } else {
-      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:avgSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
+      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:midFontSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
     }
   }
   
