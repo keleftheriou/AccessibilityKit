@@ -45,7 +45,9 @@ open class AKTextView: NSTextView {
     let attributedText = NSAttributedString(string: text, attributes: [.font: NSFont.systemFont(ofSize: 12)])
     let longestWord = attributedText.longestWord
     let fitSize = NSSize(width: textContainer!.size.width, height: bounds.height - 2 * textContainerInset.height)
-    font = NSFont.systemFont(ofSize: AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize))
+    font = NSFont.systemFont(ofSize: AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize) { string, maxWidth in
+      return AKTextUtilities.sizingFunction2(string: string, maxWidth: maxWidth)
+    })
   }
   
   open override func didChangeText() {
@@ -162,7 +164,9 @@ open class AKLabel: UILabel {
     super.layoutSubviews()
     guard attributedText != nil, attributedText.length > 0 else { return }
     let longestWord = attributedText.longestWord
-    super.attributedText = attributedText.withFontSize(AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: bounds.size))
+    super.attributedText = attributedText.withFontSize(AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: bounds.size) { string, maxWidth in
+      return AKTextUtilities.sizingFunction2(string: string, maxWidth: maxWidth)
+    })
   }
   
   open override func draw(_ rect: CGRect) {
@@ -215,7 +219,9 @@ open class AKTextView: UITextView {
     
     // We don't simply use `textContainer.size` because it will have infinite Y size if scrolling is enabled
     let fitSize = bounds.inset(by: textContainerInset).size
-    let maxFontSize = AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize)
+    let maxFontSize = AKTextUtilities.maxFontSize(string: attributedText, longestWord: longestWord, fitSize: fitSize) { string, maxWidth in
+      AKTextUtilities.sizingFunction2(string: string, maxWidth: maxWidth)
+    }
     // NOTE: `UITextView` seems to *not* use the .usesDeviceMetrics drawing option of the `boundingRect` functions
     super.attributedText = attributedText.withFontSize(maxFontSize)
     
