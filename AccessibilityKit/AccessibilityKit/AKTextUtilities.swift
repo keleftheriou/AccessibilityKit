@@ -53,6 +53,10 @@ class AKTextUtilities {
     maxFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true, sizingFunction: sizingFunction)
     // If the entire string was that word, we are all set
     guard string.length > longestWord.length else { return maxFontSize }
+
+    // If the entire string fits using the current `maxFontSize`, use that and avoid further searching
+    if fitSize.contains(sizingFunction(string.withFontSize(maxFontSize), fitSize.width)) { return maxFontSize }
+    
     // Continue searching downwards using the entire text, starting from our previous `maxFontSize`
     return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, sizingFunction: sizingFunction)
   }
