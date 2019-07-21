@@ -23,14 +23,15 @@ class AKTextUtilities {
   // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
   private static let accuracyThreshold: CGFloat = 1.0
   
+  // We always use rounded font sizes to allow the OS to use glyph size caching, if available
   private static func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
   private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, sizingFunction: SizingFunction) -> CGFloat {
-    let avgSize = roundedFontSize((minFontSize + maxFontSize)/2)
-    if avgSize == minFontSize || avgSize == maxFontSize { return minFontSize }
-    let newSize = sizingFunction(string.withFontSize(avgSize), singleLine ? .greatestFiniteMagnitude : fitSize.width)
+    if maxFontSize - minFontSize < accuracyThreshold { return roundedFontSize(minFontSize) }
+    let avgSize = (minFontSize + maxFontSize)/2
+    let newSize = sizingFunction(string.withFontSize(roundedFontSize(avgSize)), singleLine ? .greatestFiniteMagnitude : fitSize.width)
     let fits = fitSize.contains(newSize)
     if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(avgSize) newSize \(newSize), fits: \(fits)") }
     if fits {
@@ -48,7 +49,7 @@ class AKTextUtilities {
     let fitSize = _fitSize.floored
     // Ensure we never break a word into multiple lines.
     // Start with a good heuristic
-    var maxFontSize = roundedFontSize(2 * min(fitSize.height, fitSize.width))
+    var maxFontSize = 2 * min(fitSize.height, fitSize.width)
     // First, fit the largest word inside our bounds.
     maxFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true, sizingFunction: sizingFunction)
     // If the entire string was that word, we are all set
