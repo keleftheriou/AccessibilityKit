@@ -18,30 +18,28 @@ class AKTextUtilities {
   
   typealias SizingFunction = (_ string: NSAttributedString, _ maxWidth: CGFloat) -> CGSize
   
-  // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
-  // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
-  private static let accuracyThreshold: CGFloat = 1.0
-  
   // We always use rounded font sizes to allow the OS to use glyph size caching, if available
-  private static func roundedFontSize(_ fontSize: CGFloat) -> CGFloat {
-    return round(fontSize / accuracyThreshold) * accuracyThreshold
+  private static func roundedFontSize(_ fontSize: CGFloat, threshold: CGFloat) -> CGFloat {
+    return round(fontSize / threshold) * threshold
   }
   
-  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat = 0, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, sizingFunction: SizingFunction) -> CGFloat {
-    if maxFontSize - minFontSize < accuracyThreshold { return roundedFontSize(minFontSize) }
+  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat = 0, maxFontSize: CGFloat, fitSize: CGSize, threshold: CGFloat, singleLine: Bool, sizingFunction: SizingFunction) -> CGFloat {
+    if maxFontSize - minFontSize < threshold { return roundedFontSize(minFontSize, threshold: threshold) }
     let midFontSize = (minFontSize + maxFontSize)/2
-    let newSize = sizingFunction(string.withFontSize(roundedFontSize(midFontSize)), singleLine ? .greatestFiniteMagnitude : fitSize.width)
+    let newSize = sizingFunction(string.withFontSize(roundedFontSize(midFontSize, threshold: threshold)), singleLine ? .greatestFiniteMagnitude : fitSize.width)
     let fits = fitSize.contains(newSize)
     if debugLogging { print("binarySearch(\(string.length), \(minFontSize), \(maxFontSize), \(fitSize)): font \(midFontSize) newSize \(newSize), fits: \(fits)") }
     if fits {
-      return binarySearch(string: string, minFontSize:midFontSize, maxFontSize:maxFontSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
+      return binarySearch(string: string, minFontSize:midFontSize, maxFontSize:maxFontSize, fitSize: fitSize, threshold: threshold, singleLine: singleLine, sizingFunction: sizingFunction)
     } else {
-      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:midFontSize, fitSize: fitSize, singleLine: singleLine, sizingFunction: sizingFunction)
+      return binarySearch(string: string, minFontSize:minFontSize, maxFontSize:midFontSize, fitSize: fitSize, threshold: threshold, singleLine: singleLine, sizingFunction: sizingFunction)
     }
   }
   
-  // TODO: build a few per-fitSize caches
-  static func maxFontSize(string: NSAttributedString, longestWord: NSAttributedString, fitSize _fitSize: CGSize, sizingFunction: SizingFunction) -> CGFloat {
+  // The resulting font size might be smaller than the ideal fit, by up to `threshold`.
+  // For a more accurate, tighter fit, reduce `threshold` at the cost of performance.
+  static func maxFontSize(string: NSAttributedString, longestWord: NSAttributedString, fitSize _fitSize: CGSize, threshold: CGFloat = 1.0, sizingFunction: SizingFunction) -> CGFloat {
+    precondition(threshold > 0)
     let startTime = CFAbsoluteTimeGetCurrent()
     defer { postInvocationHandler(startTime) }
     // From the docs: "The `boundingRect` methods return fractional sizes; to use a returned size to size views, you must raise its value to the nearest higher integer using the ceil function."
@@ -50,7 +48,7 @@ class AKTextUtilities {
     // Start with a good heuristic
     var maxFontSize = 2 * min(fitSize.height, fitSize.width)
     // First, fit the largest word inside our bounds.
-    maxFontSize = binarySearch(string: longestWord, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true, sizingFunction: sizingFunction)
+    maxFontSize = binarySearch(string: longestWord, maxFontSize: maxFontSize, fitSize: fitSize, threshold: threshold, singleLine: true, sizingFunction: sizingFunction)
     // If the entire string was that word, we are all set
     guard string.length > longestWord.length else { return maxFontSize }
 
@@ -58,7 +56,7 @@ class AKTextUtilities {
     if fitSize.contains(sizingFunction(string.withFontSize(maxFontSize), fitSize.width)) { return maxFontSize }
     
     // Continue searching downwards using the entire text, starting from our previous `maxFontSize`
-    return binarySearch(string: string, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, sizingFunction: sizingFunction)
+    return binarySearch(string: string, maxFontSize: maxFontSize, fitSize: fitSize, threshold: threshold, singleLine: false, sizingFunction: sizingFunction)
   }
   
 }
