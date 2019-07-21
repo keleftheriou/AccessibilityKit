@@ -18,7 +18,6 @@ class AKTextUtilities {
   
   typealias SizingFunction = (_ string: NSAttributedString, _ maxWidth: CGFloat) -> CGSize
   
-  private static let minFontSize: CGFloat = 1
   // The resulting font size might be smaller than the ideal fit, by up to this amount. For a tighter fit, reduce this value at the cost of performance.
   // Must be greater than zero. Anything lower than 0.1 is probably unnecessary.
   private static let accuracyThreshold: CGFloat = 1.0
@@ -28,7 +27,7 @@ class AKTextUtilities {
     return round(fontSize / accuracyThreshold) * accuracyThreshold
   }
   
-  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, sizingFunction: SizingFunction) -> CGFloat {
+  private static func binarySearch(string: NSAttributedString, minFontSize: CGFloat = 0, maxFontSize: CGFloat, fitSize: CGSize, singleLine: Bool, sizingFunction: SizingFunction) -> CGFloat {
     if maxFontSize - minFontSize < accuracyThreshold { return roundedFontSize(minFontSize) }
     let midFontSize = (minFontSize + maxFontSize)/2
     let newSize = sizingFunction(string.withFontSize(roundedFontSize(midFontSize)), singleLine ? .greatestFiniteMagnitude : fitSize.width)
@@ -51,7 +50,7 @@ class AKTextUtilities {
     // Start with a good heuristic
     var maxFontSize = 2 * min(fitSize.height, fitSize.width)
     // First, fit the largest word inside our bounds.
-    maxFontSize = binarySearch(string: longestWord, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true, sizingFunction: sizingFunction)
+    maxFontSize = binarySearch(string: longestWord, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: true, sizingFunction: sizingFunction)
     // If the entire string was that word, we are all set
     guard string.length > longestWord.length else { return maxFontSize }
 
@@ -59,7 +58,7 @@ class AKTextUtilities {
     if fitSize.contains(sizingFunction(string.withFontSize(maxFontSize), fitSize.width)) { return maxFontSize }
     
     // Continue searching downwards using the entire text, starting from our previous `maxFontSize`
-    return binarySearch(string: string, minFontSize: minFontSize, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, sizingFunction: sizingFunction)
+    return binarySearch(string: string, maxFontSize: maxFontSize, fitSize: fitSize, singleLine: false, sizingFunction: sizingFunction)
   }
   
 }
