@@ -18,7 +18,7 @@ public class Test: NSObject {
     s.append(NSAttributedString(string: " example of ", attributes: [.foregroundColor: UIColor.white]))
     s.append(NSAttributedString(string: "DYNAMIC", attributes: [.foregroundColor: UIColor.red]))
     s.append(NSAttributedString(string: " font ", attributes: [.foregroundColor: UIColor.white]))
-    s.append(NSAttributedString(string: "RESIZINGi 😃", attributes: [.foregroundColor: UIColor.green]))
+    s.append(NSAttributedString(string: "RESIZING 😃", attributes: [.foregroundColor: UIColor.green]))
 
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.alignment = .center
